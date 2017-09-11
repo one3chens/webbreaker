@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Webbreaker</title>
+
+        <link rel="stylesheet" href="https://target.github.io/webbreaker/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://target.github.io/webbreaker/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://target.github.io/webbreaker/css/highlight.dark.css">
+        <link rel="stylesheet" href="https://target.github.io/webbreaker/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="https://target.github.io/webbreaker/">
+                Webbreaker
+                <small class="hidden-xs hidden-sm">
+                    Centrally administer Dynamic Application Security Testing (DAST), as part of your DevOps pipeline
+                </small>
+            </a>
+
+                            <a href="https://github.com/target/webbreaker">
+                    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+                </a>
+            
+        </header>
+
+        <main class="container">
+            <div class="row">
+
+                
+                <section id="content" class="col-sm-12">
+                    <h1 id="webbreaker-documentation">WebBreaker Documentation</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<p><a href="#introduction">Introduction</a></p>
+<ul>
+<li><a href="#description">Description: <code>description</code></a></li>
+</ul>
+<p><a href="#user-guide">User Guide</a></p>
+<ul>
+<li><a href="#installation">Installation: <code>installation</code></a></li>
+<li><a href="#supported-features">Supported Features <code>supported_features</code></a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#logging">Logging</a></li>
+<li><a href="#notification">Notifications</a></li>
+<li><a href="#verbose_cheatsheet">Verbose Cheatsheet</a></li>
+</ul>
+<p><a href="#configurations">Configurations</a></p>
+<ul>
+<li><a href="#fortify-config">Fortify configuration: <code>fortify_config</code></a></li>
+<li><a href="#webinspect-config">WebInspect configuration: <code>webinspect_config</code></a></li>
+<li><a href="#logging-config">Logging configuration: <code>logging_config</code></a></li>
+<li><a href="#email-config">Email configuration: <code>email_config</code></a></li>
+<li><a href="#webinspect-settings">WebInspect settings: <code>webinspect_settings</code></a></li>
+<li><a href="#webinspect-policies">WebInspect policies: <code>webinspect_policies</code></a></li>
+<li><a href="#webinspect-webmacros">WebInspect webmacros: <code>webinspect_webmacros</code></a></li>
+</ul>
+<h2 id="introduction">Introduction <code>introduction</code></h2>
+<h3 id="description">Description <code>description</code></h3>
+<p>Build functional security testing, into your software development and release cycles! WebBreaker provides the capabilities to automate and centrally manage Dynamic Application Security Testing (DAST) as part of your DevOps pipeline.</p>
+<h2 id="user-guide">User Guide <code>user-guide</code></h2>
+<h3 id="installation">Installation: <code>installation</code></h3>
+<h4 id="source-installation">Source Installation</h4>
+<p>There are two (2) methods to install WebBreaker from github.com.</p>
+<ul>
+<li><code>git clone https://github.com/target/webbreaker</code></li>
+<li><code>cd webbreaker</code></li>
+<li><code>python setup.py install --user</code></li>
+</ul>
+<h4 id="package-install">Package Install</h4>
+<p>WebBreaker releases are packaged on github.com and can be installed locally.</p>
+<ul>
+<li><code>pip install -e git+https://github.com/target/webbreaker.git#egg=webbreaker</code></li>
+</ul>
+<h3 id="supported-features">Supported Features: <code>supported_features</code></h3>
+<ul>
+<li>Jenkins global environmental variable inheritance with scan options.</li>
+<li>WebInspect REST API support for v9.30 and above. </li>
+<li>Export both XML and FPR WebInspect formats to Fortify Software Security Center (SSC) or other compatible vulnerability management web applications for vulnerability analysis/triage.</li>
+<li>Ability to automatically upload scan results to Fortify SSC or other third-party vulnerability management software.</li>
+<li>Centrally administer all configurations required to launch WebInspect scans.</li>
+<li>Remotely query arbitrary policies, settings, webmacros, from any WebInspect deployment.</li>
+<li>Configurable property .ini files to support your <a href="webbreaker/etc/fortify.ini">Foritfy</a> and <a href="webbreaker/etc/webinspect.ini">WebInspect</a> deployments.</li>
+<li>Enterprise scalability with configurable Just-In-Time (JIT) scheduling to distribute your WebInspect scans between two (2) or greater sensors.</li>
+<li>ChatOps extensibility and <a href="webbreaker/etc/email.ini">email notifications</a> on scan start and completion.</li>
+<li>Local <a href="webbreaker/etc/logging.ini">logging</a> of WebInspect scan state.</li>
+<li><a href="https://github.com/airbnb/superset">Superset data visualization dashboard</a> support for scan status and performance.</li>
+</ul>
+<h3 id="usage">Usage</h3>
+<h4 id="command-hierarchy">Command Hierarchy</h4>
+<p>Webbreak utilizes a structure of upper-level and lower-level commands to enable interaction with multiple 3rd party platforms. The two platforms currently supported are WebInspect and Fortfiy and they can be accessed using their respective upper-level commands. Webbreaker supports multiple functions for each platform which are accessed via lower-level commands. The current command structure is listed below.</p>
+<ul>
+<li>webbreaker
+<ul>
+<li>webinspect</li>
+<li>scan</li>
+<li>list</li>
+<li>download</li>
+<li>fortify</li>
+<li>list</li>
+<li>upload</li>
+</ul></li>
+</ul>
+<p>A promper Webbreaker command utilizes the structure 'webbreaker [webinspect|fortify] [lower-level command] [OPTIONS]'</p>
+<h3 id="verbose-cheatsheet">Verbose Cheatsheet</h3>
+<h2 id="logging">Logging</h2>
+<p>WebBreaker may be implemented with Elastic Stack for log aggregation. Recommended compenents include Filebeat agents installed on all WebInspect servers, forwarding to Logstash, and visualized in Kibana. General implementation details are <a href="https://qbox.io/blog/welcome-to-the-elk-stack-elasticsearch-logstash-kibana/">here</a>.  A recommended approach is to tag log events and queries with <code>WebInspect</code> and <code>webbreaker</code>, but remember queries are case sensitive.</p>
+<h2 id="notifications">Notifications</h2>
+<p>WebBreaker provides notifications for start-scan and end-scan events. A simple publisher/subscriber pattern is implemented under the <code>webbreaker/notifiers</code>.  A Reporter object will hold a collection of Notifiers, each of which implements a Notify function responsible for creating the desired notification. Currently, two notification types are implemented email and database.</p>
+<p>The email notifier merges the provided event data into an HTML email message and sends the message. All SMTP-related settings are stored in <a href="https://github.com/target/webbreaker/blob/master/webbreaker/etc/email.ini">webbreaker/etc/email.ini</a>, and read during the webbreaker execution.</p>
+<p>If an error occurs on behalf of the notifiers at any point during the process of creating or sending notifications, the event will be logged, without any interruption of WebBreaker execution or the WebInspect scan.</p>
+<h4 id="webinspect-list">WebInspect List</h4>
+<p>List all scans (scan name, scan id, and scan status) found on the server webinspect-server-1.example.com:8083</p>
+<pre><code>&gt; python webbreaker webinspect list --server webinspect-server-1.example.com:8083</code></pre>
+<p>List all scans (scan name, scan id, and scan status) found on the server webinspect-server-1.example.com:8083 whose scan name matches the query 'important_site'</p>
+<pre><code>&gt; webbreaker webinspect list --server webinspect-server-1.example.com:8083 --scan_name important_site</code></pre>
+<p>List all scans (scan name, scan id, and scan status) found on the server webinspect-server-1.example.com:8083. Interaction with server will use http instead of https.</p>
+<pre><code>$ webbreaker webinspect list --server webinspect-server-1.example.com:8083 --protocol http</code></pre>
+<h4 id="webinspect-downlaod">WebInspect Downlaod</h4>
+<p>For these examples, assume the server has scans with names important_site_auth, important_site_api, important_site_internal</p>
+<p>Download the results from the important_site_auth scan found on webinspect-server-2.example.com:8083 as an fpr file</p>
+<pre><code>&gt; webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth</code></pre>
+<p>Because multiple scan names on webinspect-server-2.example.com:8083 match 'important_site', this command will list them in output and no files will be downloaded</p>
+<pre><code>&gt; webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site</code></pre>
+<p>Download the results of scan 'important_site_auth' from webinspect-server-2.example.com:8083 in xml format</p>
+<pre><code>&gt; webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth -x xml</code></pre>
+<p>Download the results from the important_site_auth scan found on webinspect-server-2.example.com:8083 as an fpr file. All interaction with webinspect-server-2.example.com:8083 will use http instead of https</p>
+<pre><code>&gt; webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth --protocol http</code></pre>
+<h4 id="webinspect-scan">WebInspect Scan</h4>
+<p>Launch a scan using the settings file important_site_auth.xml (WebBreaker assumes the .xml extension)</p>
+<pre><code>&gt; webbreaker webinspect scan --settings important_site_auth</code></pre>
+<p>Launch a scan using the settings file important_site_auth.xml (WebBreaker assumes the .xml extension) with the allowed hosts important-site.com and m.important-site.com
+<strong>Note: The start_urls, allowed_hosts, and workflow_macros options can all be used multiple times in this format</strong></p>
+<pre><code>&gt; webbreaker webinspect scan --settings important_site_auth --allowed_hosts important-site.com --allowed_hosts m.important-site.com</code></pre>
+<p>Launch a scan using a settings file found by absolute path instead of one downloaded from the webinspect.ini repo</p>
+<pre><code>&gt; webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth.xml</code></pre>
+<h4 id="fortify-list">Fortify List</h4>
+<p>List all versions found on Fortify (using the url listed in fortify.ini). Authentication to Fortify will use the username and password I have stored as environment variables.</p>
+<pre><code>&gt; webbreaker fortify list --fortify_user $FORT_USER --fortify_password $FORT_PASS</code></pre>
+<p>List all versions found on Fortify (using the url listed in fortify.ini). User will be prompted for their username and password to authenticate to Fortify.
+<strong>Note: When username/password authentication is successful, Fortify will provide a token that is valid for 24 hours. WebBreaker encryptes this token and stores it in fortify.ini. As long as you have a valid token, you will not be prompted for your username and password.</strong></p>
+<pre><code>&gt; webbreaker fortify list</code></pre>
+<p>List all versions found on Fortify (using the url listed in fortify.ini) that belong to the application 'webinspect'
+<strong>Note: Fortify applications are also sometimes refered to as projects</strong></p>
+<pre><code>&gt; webbreaker fortify list --application webinspect</code></pre>
+<h4 id="fortify-upload">Fortify Upload</h4>
+<p>Upload the file important_site_auth.fpr to the important_site_auth version on Fortify (using the url listed in fortify.ini). User will be prompted for their username and password to authenticate to Fortify.
+<strong>Note: When username/password authentication is successful, Fortify will provide a token that is valid for 24 hours. WebBreaker encryptes this token and stores it in fortify.ini. As long as you have a valid token, you will not be prompted for your username and password.</strong></p>
+<pre><code>&gt; webbreaker fortify upload --version important_site_auth</code></pre>
+<p>Upload the file important_site_auth.fpr to the important_site_auth version on Fortify (using the url listed in fortify.ini). Authentication to Fortify will use the username and password I have stored as environment variables.</p>
+<pre><code>&gt; webbreaker fortify upload --fortify_user $FORT_USER --fortify_password $FORT_PASS --version important_site_auth</code></pre>
+<p>Upload the file important_site_auth.fpr to the important_site_auth version under the application my_other_app on Fortify. If --application is not provided, WebBreaker will use the application name found in fortify.ini</p>
+<pre><code>&gt; webbreaker fortify upload --application my_other_app --version important_site_auth</code></pre>
+<p>Upload the file auth_scan.fpr to the important_site_auth version on Fortify</p>
+<pre><code>&gt; webbreaker fortify upload --version important_site_auth --scan_name auth_scan</code></pre>
+<h2 id="logging-1">Logging</h2>
+<p>WebBreaker may be implemented with Elastic Stack for log aggregation. Recommended compenents include Filebeat agents installed on all WebInspect servers, forwarding to Logstash, and visualized in Kibana. General implementation details are <a href="https://qbox.io/blog/welcome-to-the-elk-stack-elasticsearch-logstash-kibana/">here</a>.  A recommended approach is to tag log events and queries with <code>WebInspect</code> and <code>webbreaker</code>, but remember queries are case sensitive.</p>
+<h2 id="notifications-1">Notifications</h2>
+<p>WebBreaker provides notifications for start-scan and end-scan events. A simple publisher/subscriber pattern is implemented under the <code>webbreaker/notifiers</code>.  A Reporter object will hold a collection of Notifiers, each of which implements a Notify function responsible for creating the desired notification. Currently, two notification types are implemented email and database.</p>
+<p>The email notifier merges the provided event data into an HTML email message and sends the message. All SMTP-related settings are stored in <a href="https://github.com/target/webbreaker/blob/master/webbreaker/etc/email.ini">webbreaker/etc/email.ini</a>, and read during the webbreaker execution.</p>
+<p>If an error occurs on behalf of the notifiers at any point during the process of creating or sending notifications, the event will be logged, without any interruption of WebBreaker execution or the WebInspect scan.</p>
+<h2 id="configurations">Configurations</h2>
+<h3 id="fortify-configuration">Fortify Configuration: <code>fortify_config</code></h3>
+<p>Software Security Center (SSC) configuration file <code>webbreaker/etc/fortify.ini</code> administers communication with Fortify SSC, and other Application settings.  Both <code>Project Template</code> and <code>Application</code> are static values declared in <code>fortify.ini</code>.  The <code>--scan_name</code> value will be used as the SSC Version name, created within the <code>Application</code> specified in the <code>fortify.ini</code> illustrated below.</p>
+<h4 id="file">File</h4>
+<p><em>webbreaker/etc/fortify.ini</em></p>
+<h4 id="example">Example</h4>
+<pre><code>[fortify]
+fortify_url=http://localhost:8080/ssc
+project_template=Prioritized High Risk Issue Template
+application_name=WEBINSPECT
+fortify_secret=XXX</code></pre>
+<h3 id="webinspect-configuration">WebInspect Configuration: <code>webinspect_config</code></h3>
+<p>WebInspect scan configuration files for <code>settings</code>, <code>policies</code>, and <code>webmacros</code> are versioned and hosted from a GIT repository determined in <code>webbreaker/etc/webinspect.ini</code>.  Additionally, all WebInspect policies and servers are managed from this configuration file.  The section <code>[api endpoints]</code> provides a <em>Just-In-Time</em> (JIT) scheduler or the ability to load balance scans amongst a WebInspect cluster.</p>
+<h4 id="file-1">File</h4>
+<p><em>webbreaker/etc/webinspect.ini</em></p>
+<h4 id="example-1">Example</h4>
+<pre><code>[webinspect_policies]
+AggressiveSQLInjection=032b1266-294d-42e9-b5f0-2a4239b23941
+AllChecks=08cd4862-6334-4b0e-abf5-cb7685d0cde7
+ApacheStruts=786eebac-f962-444c-8c59-7bf08a6640fd
+Application=8761116c-ad40-438a-934c-677cd6d03afb
+Assault=0a614b23-31fa-49a6-a16c-8117932345d8
+Blank=adb11ba6-b4b5-45a6-aac7-1f7d4852a2f6
+CriticalsAndHighs=7235cf62-ee1a-4045-88f8-898c1735856f
+CrossSiteScripting=49cb3995-b3bc-4c44-8aee-2e77c9285038
+Development=9378c6fa-63ec-4332-8539-c4670317e0a6
+Mobile=be20c7a7-8fdd-4bed-beb7-cd035464bfd0
+NoSQLAndNode.js=a2c788cc-a3a9-4007-93cf-e371339b2aa9
+OpenSSLHeartbleed=5078b547-8623-499d-bdb4-c668ced7693c
+OWASPTop10ApplicationSecurityRisks2013=48cab8a0-669e-438a-9f91-d26bc9a24435
+OWASPTop10ApplicationSecurityRisks2007=ece17001-da82-459a-a163-901549c37b6d
+OWASPTop10ApplicationSecurityRisks2010=8a7152d5-2637-41e0-8b14-1330828bb3b1
+PassiveScan=40bf42fb-86d5-4355-8177-4b679ef87518
+Platform=f9ae1fc1-3aba-4559-b243-79e1a98fd456
+PrivilegeEscalation=bab6348e-2a23-4a56-9427-2febb44a7ac4
+QA=5b4d7223-a30f-43a1-af30-0cf0e5cfd8ed
+Quick=e30efb2a-24b0-4a7b-b256-440ab57fe751
+Safe=def6a5b3-d785-40bc-b63b-6b441b315bf0
+SOAP=a7eb86b8-c3fb-4e88-bc59-5253887ea5b1
+SQLInjection=6df62f30-4d47-40ec-b3a7-dad80d33f613
+Standard=cb72a7c2-9207-4ee7-94d0-edd14a47c15c
+TransportLayerSecurity=0fa627de-3f1c-4640-a7d3-154e96cda93c
+
+[api_endpoints]
+large=2
+medium=1
+server01=https://webinspect-server-1.example.com:8083
+server02=https://webinspect-server-2.example.com:8083
+server03=https://webinspect-server-3.example.com:8083
+server04=https://webinspect-server-4.example.com:8083
+server05=https://webinspect-server-5.example.com:8083
+server06=https://webinspect-server-6.example.com:8083
+server07=https://webinspect-server-7.example.com:8083
+server08=https://webinspect-server-8.example.com:8083
+server09=https://webinspect-server-9.example.com:8083
+server10=https://webinspect-server-10.example.com:8083
+e01: %(server01)s|%(large)s
+e02: %(server02)s|%(large)s
+e03: %(server03)s|%(large)s
+e04: %(server04)s|%(large)s
+e05: %(server05)s|%(large)s
+e06: %(server06)s|%(medium)s
+e07: %(server07)s|%(medium)s
+e08: %(server08)s|%(medium)s
+e09: %(server09)s|%(medium)s
+e10: %(server10)s|%(medium)s
+
+[webinspect_size]
+large=2
+medium=1
+
+[webinspect_default_size]
+default=large
+
+[configuration_repo]
+git = git@github.com:target/webbreaker.git
+dir = webbreaker/etc/webinspect/</code></pre>
+<h3 id="logging-configuration">Logging Configuration: <code>logging_config</code></h3>
+<p>The <code>webbreaker/etc/logging.ini</code> implements the standard Python logging facility, logs and events are created under <code>/tmp</code>.</p>
+<h4 id="file-2">File</h4>
+<p><em>webbreaker/etc/logging.ini</em></p>
+<h4 id="example-2">Example</h4>
+<p><a href="https://docs.python.org/3/library/logging.html">See Python Logging</a></p>
+<h3 id="email-configuration">Email Configuration: <code>email_config</code></h3>
+<p>Notifications for start-scan and end-scan events. A simple publisher/subscriber pattern is implemented under the &quot;notifiers&quot; folder.</p>
+<p>A Reporter object holds a collection of Notifier objects, each of which implements a Notify function responsible for creating the desired notification. Currently, two notification types are implemented email and database.</p>
+<p>The email notifier merges the provided event data into an HTML email message and sends the message. All SMTP-related settings are stored in .emailrc, and read during program startup.</p>
+<h4 id="file-3">File</h4>
+<p><em>webbreaker/etc/email.ini</em></p>
+<h4 id="example-3">Example</h4>
+<pre><code>[emailer]
+smtp_host=smtp.example.com
+smtp_port=25
+from_address=webbreaker-no-reply@example.com
+to_address=webbreaker-activity@example.com
+email_template:&lt;html&gt;
+              &lt;head&gt;&lt;/head&gt;
+              &lt;body&gt;&lt;/body&gt;</code></pre>
+<h3 id="webinspect-settings">WebInspect Settings: <code>webinspect_settings</code></h3>
+<p>All WebInspect distributions are packaged with a <code>Default.xml</code> file that may be overridden and uploaded to the WebInspect deployment with the webbreaker option <code>--settings</code>.  The setting xml file contains all possible options for your scan including, a WebInspect scan including policy, workflow and/or login macro, scan depth, and allowed hosts.</p>
+<p><em>Note:</em> The <code>etc/webinspect.ini</code> property file contains a section <code>configuration_repo</code>, a unique GIT repo is defined by the user and is mutually exclusive from the WebBreaker source.  The assumption is each WebBreaker installation will have a unique GIT URL defined.  Upon each execution, the repo refreshes <em>all</em> settings file(s), assuming that there may be newly created, deletions, or modifications of settings files.  All settings files used in execution must reside in this respective repo under <code>etc/webinspect/settings</code>.</p>
+<h4 id="directory">Directory</h4>
+<p><em>webbreaker/etc/webinspect/settings</em></p>
+<h3 id="webinspect-policies">WebInspect Policies: <code>webinspect_policies</code></h3>
+<p>Grouping of proprietary WebInspect tests to perform.  Tests or rules are represented in an <code>xml</code> element with a <code>.policy</code> file extension.  Custom tests or Checks are mapped to a unique WebInspect ID.  The mapping for all policies shipped with WebInspect are mapped with their respective GUID under <code>etc/webinspect.ini</code> within the <code>[webinspect_policies]</code> section.</p>
+<p><em>Note:</em> All custom polices are automatically uploaded to the targeted WebInspect server and must be referenced as a GUID.  </p>
+<p>The <code>etc/webinspect.ini</code> property file contains a section <code>configuration_repo</code>, a unique GIT repo is defined by the user and is mutually exclusive from the WebBreaker source.  The assumption is each WebBreaker installation will have a unique GIT URL defined.  Upon each execution, the repo refreshes <em>all</em> settings file(s), assuming that there may be newly created, deletions, or modifications of settings files.  All settings files used in execution must reside in this respective repo under <code>etc/webinspect/settings</code>.</p>
+<h4 id="directory-1">Directory</h4>
+<p><em>webbreaker/etc/webinspect/policies</em></p>
+<h3 id="webinspect-webmacros">WebInspect Webmacros: <code>webinspect_webmacros</code></h3>
+<p>Proprietary functional recordings of either a login or workflow of the website to scan, both files are encoded and are not compatable with any 3rd party product.  If a website requires authentication the login webmacro is required otherwise WebInspect will not be able to test any page enforcing authentication.  The workflow macro is a recording of a base case functional use of the website and is optional.  Alernatively, a website can be scanned by providing a list of URLs in-scope to scan.</p>
+<p><em>Note:</em> The <code>etc/webinspect.ini</code> property file contains a section <code>configuration_repo</code>, a unique GIT repo is defined by the user and is mutually exclusive from the WebBreaker source.  The assumption is each WebBreaker installation will have a unique GIT URL defined.  Upon each execution, the repo refreshes <em>all</em> settings file(s), assuming that there may be newly created, deletions, or modifications of settings files.  All settings files used in execution must reside in this respective repo under <code>etc/webinspect/settings</code>.</p>
+<h4 id="directory-2">Directory</h4>
+<p><em>webbreaker/etc/webinspect/webmacros</em></p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>
