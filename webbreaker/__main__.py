@@ -10,14 +10,11 @@ __license__ = "MIT"
 
 try:
     from signal import *
-    import urlparse
-    from urlparse import urlparse
-    import httplib
+    from urllib.parse import urlparse
 except ImportError: #Python3
     import html.entities as htmlentitydefs
-    import urllib.parse as urlparse
+    import urlparse as urlparse
     import html.parser as HTMLParser
-    import httplib2
 try: #Python3
     import urllib.request as urllib
 except:
@@ -252,7 +249,7 @@ def scan(config, **kwargs):
         handle_scan_event('scan_end')
 
         Logger.console.critical('Scan is complete.')
-    except (requests.exceptions.ConnectionError, httplib.BadStatusLine, requests.exceptions.HTTPError) as e:
+    except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
         Logger.console.error(
             "Unable to connect to WebInspect {0}, see log: {1}".format(webinspect_settings['webinspect_url'],
                                                                        Logger.app_logfile))
