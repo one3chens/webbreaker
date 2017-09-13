@@ -51,9 +51,8 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
 @click.group()
-@click.option('--help', help='Enter a product command: webinspect or fortify')
 @pass_config
-def cli(config, help):
+def cli(config):
     """WebBreaker is a Dynamic Application Security Test Orchestration (DASTO) product, with API support for.
     WebInspect and Fortify SSC, more commercial products to be added in the future."""
 
@@ -61,7 +60,6 @@ def cli(config, help):
     f = Figlet(font='slant')
     Logger.console.info("\n\n{0}Version {1}\n".format(f.renderText('WebBreaker'), version))
     Logger.console.info("Logging to files: {}".format(Logger.app_logfile))
-    config.help = help
 
 
 @cli.group(help="""WebInspect is dynamic application security testing software for assessing security of Web
