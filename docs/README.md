@@ -33,11 +33,12 @@ Build functional security testing, into your software development and release cy
 
 ### Installation: `installation`
 
-#### Source Installation
-There are two (2) methods to install WebBreaker from github.com.
+### Quick Local Installation ###
+Install WebBreaker from github.com.
 * ```git clone https://github.com/target/webbreaker```
-* ```cd webbreaker```
-* ```python setup.py install --user```
+* ```export PATH=$PATH:$PYTHONPATH```
+* ```pip install -r requirements.txt```
+* ```python setup.py install```
 
 #### Package Install
 WebBreaker releases are packaged on github.com and can be installed locally.
