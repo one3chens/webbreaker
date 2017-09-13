@@ -23,6 +23,7 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 Install WebBreaker from github.com.
 * ```git clone https://github.com/target/webbreaker```
 * ```export PATH=$PATH:$PYTHONPATH```
+* ```pip install -r requirements.txt```
 * ```python setup.py install```
 
 **NOTE:**

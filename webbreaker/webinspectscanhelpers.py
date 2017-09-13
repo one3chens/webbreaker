@@ -7,10 +7,9 @@ import os, datetime
 from signal import *
 import json
 try:
-    import urlparse
-    from urlparse import urlparse
-except ImportError: #Python3
-    import urllib.parse as urlparse
+    from urllib.parse import urlparse
+except ImportError:
+    import urlparse as urlparse
 
 from webbreaker.webbreakerconfig import WebBreakerConfig
 
