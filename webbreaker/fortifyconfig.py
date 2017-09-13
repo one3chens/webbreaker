@@ -7,6 +7,7 @@ except ImportError: #Python3
     import configparser
 import os
 import sys
+import re
 from webbreaker.webbreakerlogger import Logger
 from subprocess import CalledProcessError
 from cryptography.fernet import Fernet
@@ -28,23 +29,29 @@ class FortifyConfig(object):
             self.ssc_url = config.get("fortify", "ssc_url")
             encrypted_token = config.get("fortify", "fortify_secret")
 
-            if encrypted_token:
-                try:
-                    with open(".webbreaker", 'r') as secret_file:
-                        fernet_key = secret_file.readline().strip()
-                    Logger.app.debug("Fernet key found. Attempting decryption of Fortify token")
-                except IOError:
-                    Logger.console.error("Error retrieving Fernet key, file does not exist. Please run 'python "
-                                           "setup.py secret' to reset")
-                    sys.exit(1)
+            if encrypted_token and encrypted_token[:2] == "e$":
+                encryption_version = re.search('e\$(.*)\$.*', encrypted_token).group(1)
+                if encryption_version == 'Fernet':
+                    encrypted_token = encrypted_token.split(encryption_version + "$", 1)[1]
+                    try:
+                        with open(".webbreaker", 'r') as secret_file:
+                            fernet_key = secret_file.readline().strip()
+                        Logger.app.debug("Fernet key found. Attempting decryption of Fortify token")
+                    except IOError:
+                        Logger.console.error("Error retrieving Fernet key, file does not exist. Please run 'python "
+                                               "setup.py secret' to reset")
+                        sys.exit(1)
 
-                try:
-                    cipher = Fernet(fernet_key)
-                    self.secret = cipher.decrypt(encrypted_token.encode()).decode()
-                    Logger.app.debug("Token decrypted with no errors")
-                except ValueError as e:
-                    Logger.console.error("Error decrypting the Fortify token.  Exiting now, see log {}!".format(Logger.app_logfile))
-                    Logger.app.debug(e)
+                    try:
+                        cipher = Fernet(fernet_key)
+                        self.secret = cipher.decrypt(encrypted_token.encode()).decode()
+                        Logger.app.debug("Token decrypted with no errors")
+                    except ValueError as e:
+                        Logger.console.error("Error decrypting the Fortify token.  Exiting now, see log {}!".format(Logger.app_logfile))
+                        Logger.app.debug(e)
+                        sys.exit(1)
+                else:
+                    Logger.console.error("Error decrypting the Fortify token.  Unsupported encryption version")
                     sys.exit(1)
             else:
                 self.secret = None
@@ -81,7 +88,7 @@ class FortifyConfig(object):
         config_file = os.path.abspath(os.path.join('webbreaker', 'etc', 'fortify.ini'))
         try:
             config.read(config_file)
-            config.set('fortify','fortify_secret', encrypted_token.decode())
+            config.set('fortify','fortify_secret', "e$Fernet$" + encrypted_token.decode())
             with open(config_file, 'w') as new_config:
                 config.write(new_config)
 
