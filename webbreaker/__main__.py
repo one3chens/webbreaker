@@ -37,6 +37,7 @@ from webbreaker.fortifyclient import FortifyClient
 from webbreaker.fortifyconfig import FortifyConfig
 from webbreaker.webinspectscanhelpers import create_scan_event_handler
 from webbreaker.webinspectscanhelpers import scan_running
+from webbreaker.webbreakerhelper import WebBreakerHelper
 
 
 handle_scan_event = None
@@ -50,11 +51,10 @@ class Config(object):
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
-@click.group()
+@click.group(help=click.echo(WebBreakerHelper.help_description()))
 @pass_config
 def cli(config):
-    """WebBreaker is a Dynamic Application Security Test Orchestration (DASTO) product, with API support for.
-    WebInspect and Fortify SSC, more commercial products to be added in the future."""
+    WebBreakerHelper.help_description()
 
     # Show something pretty to start
     f = Figlet(font='slant')
