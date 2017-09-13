@@ -10,10 +10,11 @@ __license__ = "MIT"
 
 try:
     from signal import *
-    from urllib.parse import urlparse
+    import urlparse as urlparse
+    # from urllib.parse import urlparse
 except ImportError: #Python3
     import html.entities as htmlentitydefs
-    import urlparse as urlparse
+    from urllib.parse import urlparse
     import html.parser as HTMLParser
 try: #Python3
     import urllib.request as urllib
