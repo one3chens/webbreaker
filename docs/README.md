@@ -138,7 +138,7 @@ Launch a scan using the settings file important_site_auth.xml (WebBreaker assume
 
 Launch a scan using a settings file found by absolute path instead of one downloaded from the webinspect.ini repo
 ```
-> webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth.xml
+> webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth
 ```
 
 #### Fortify List

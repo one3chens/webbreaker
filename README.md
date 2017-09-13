@@ -67,7 +67,7 @@ Below is a Cheatsheet of supported commands to get you started.
     webbreaker webinspect scan --settings important_site_auth --allowed_hosts example.com --allowed_hosts m.example.com` |
     
     Scan with local WebInspect settings:
-    webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth.xml
+    webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth
     
     Initial Fortify SSC Initial Listing with Authentication:
     webbreaker fortify list --fortify_user $FORTIFY_SSC_USER --fortify_password $FORTIFY_SSC_PASS
