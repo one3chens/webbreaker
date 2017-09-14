@@ -25,6 +25,7 @@ Install WebBreaker from github.com in 3 easy steps:
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
 1. ```python setup.py install```
+1. Point your WebInspect & Fortify servers by editing `webinspect.ini` and `fortify.ini`.
 
 **NOTES:**
 
