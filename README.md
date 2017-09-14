@@ -21,7 +21,7 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * Python compatibility with versions 2.x or 3.x
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
-### Quick Local Installation ###
+### Quick Local Installation and Configuration ###
 Install WebBreaker from github.com in 3 easy steps:
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
