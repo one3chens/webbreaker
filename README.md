@@ -17,6 +17,7 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * WebInspect scan cluster support between two (2) or greater WebInspect servers/sensors.
 * Capabilities for extensible scan telemetry with ELK and Splunk.
 * GIT support for centrally managing [WebInspect scan configurations](https://github.com/automationdomination/Webinspect).
+* Replaces most functionality of Fortify's `fortifyclient`
 * Python compatibility with versions 2.x or 3.x
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
@@ -25,12 +26,20 @@ Install WebBreaker from github.com in 3 easy steps:
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
 1. ```python setup.py install```
-1. Point your WebInspect & Fortify servers by editing `webinspect.ini` and `fortify.ini`.
 
 **NOTES:**
 
 * _Required_: As with any Python application that contains library dependencies, [pip](https://pip.pypa.io/en/stable/installing) is required for installation.
 * _Optional_: Include your Python site-packages, if they are not already in your $PATH with ```export PATH=$PATH:$PYTHONPATH```.
+
+Configuration can be completed by editing 2 WebBreaker files:
+1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
+ `webbreaker/etc/webinspect.ini`
+1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
+`webbreaker/etc/fortify.ini`
+
+**NOTES:**
+* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in `webbreaker/etc/email.ini`. 
 
 ### Usage ###
 WebBreaker is a command-line interface (CLI) client.  See our complete [_WebBreaker Documentation_](https://target.github.io/webbreaker/) for further configuration, usage, and installation.
