@@ -22,7 +22,7 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
 ### Quick Local Installation and Configurations ###
-Install WebBreaker from github.com in 3 easy steps:
+__Install WebBreaker from github.com in 3 easy steps:__
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
 1. ```python setup.py install```
@@ -32,7 +32,7 @@ Install WebBreaker from github.com in 3 easy steps:
 * _Required_: As with any Python application that contains library dependencies, [pip](https://pip.pypa.io/en/stable/installing) is required for installation.
 * _Optional_: Include your Python site-packages, if they are not already in your $PATH with ```export PATH=$PATH:$PYTHONPATH```.
 
-Configuration can be completed by editing 2 WebBreaker files:
+__Configuration can be completed by editing 2 WebBreaker files:__
 1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
  [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
 1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
