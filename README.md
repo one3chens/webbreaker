@@ -39,7 +39,7 @@ Configuration can be completed by editing 2 WebBreaker files:
 [webbreaker/etc/fortify.ini](https://github.com/target/webbreaker/blob/master/webbreaker/etc/fortify.ini#L2)
 
 **NOTES:**
-* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](webbreaker/etc/email.ini)
+* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/email.ini#L2)
 * _Optional_: Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the [GIT URL to the webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L33) and their respective directories.
 
 ### Usage ###
