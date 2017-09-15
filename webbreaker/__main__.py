@@ -497,5 +497,32 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
         Logger.console.critical("Unable to complete command 'fortify upload'")
 
 
+@cli.group(help="""TODO""")
+@pass_config
+def git(config):
+    pass
+
+
+@git.command()
+@click.option('--url',
+              required=True,
+              help="The url of the Git repo from which to find contributors. Ex: --url https://github.com/target/webbreaker")
+@pass_config
+def email(config, url):
+    click.echo("You found the webbreaker git email command!")
+
+
+
+@git.command('upload')
+@click.option('--webbreaker_agent',
+              required=False,
+              help="Optional override of url of WebBreaker Agent to contact")
+@pass_config
+def git_upload(config, webbreaker_agent):
+    click.echo("You found the webbreaker git upload command!")
+
+
+
+
 if __name__ == '__main__':
     cli()
