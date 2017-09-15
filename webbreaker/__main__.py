@@ -36,7 +36,9 @@ from webbreaker.fortifyconfig import FortifyConfig
 from webbreaker.webinspectscanhelpers import create_scan_event_handler
 from webbreaker.webinspectscanhelpers import scan_running
 from webbreaker.webbreakerhelper import WebBreakerHelper
-
+from webbreaker.gitapi import GitApi
+from webbreaker.gitclient import GitClient, GitUploader
+import re
 
 handle_scan_event = None
 reporter = None
@@ -510,6 +512,15 @@ def git(config):
 @pass_config
 def email(config, url):
     click.echo("You found the webbreaker git email command!")
+    parser = urlparse(url)
+    host = "{}://{}".format(parser.scheme, parser.netloc)
+    path = parser.path
+    r = re.search('\/(.*)\/', path)
+    owner = r.group(1)
+    r = re.search('\/.*\/(.*)', path)
+    repo = r.group(1)
+    git_client = GitClient(host=host)
+    click.echo(git_client.get_all_emails(owner, repo))
 
 
 

@@ -1,15 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from gitapi import GitApi
+from webbreaker.gitapi import GitApi
 import requests
 import requests.exceptions
 import requests.packages.urllib3
+import os
+try:
+    import ConfigParser as configparser
+except ImportError: #Python3
+    import configparser
+try:  # Python 2
+    config = configparser.SafeConfigParser()
+except NameError:  # Python 3
+    config = configparser.ConfigParser()
 
 class GitClient(object):
-    def __init__(self, host, token):
+    def __init__(self, host):
         self.host = host
-        self.token = token
+        self.token = self.get_token()
 
     def get_user_email(self, login):
         gitapi = GitApi(host=self.host, token=self.token, verify_ssl=False)
@@ -41,6 +50,12 @@ class GitClient(object):
                 if email:
                     emails.append(email)
         return emails
+
+    def get_token(self):
+        config_file = os.path.abspath(os.path.join('webbreaker', 'etc', 'webbreaker.ini'))
+        config.read(config_file)
+        return config.get("git", "token")
+
 
 class UploadLog(object):
     def __init__(self, log_file):
