@@ -8,29 +8,37 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 
 ### Supported Features ###
 * Command-line (CLI) scan administration of WebInspect with Foritfy SSC products.
-* [Jenkins Continuous Deployment](https://jenkins.io) support
-* Docker container support
-* Email alerting or notification.
-* Extensible event logging with scan administration and results.
+* [Jenkins](https://jenkins.io) Environmental Variable & String Parameter support (i.e. $BUILD_TAG)
+* Docker container v17.x support
+* Custom email alerting or notifications for scan launch and completion.
+* Extensible event logging for scan administration and results.
 * [WebInspect REST API](https://pypi.python.org/pypi/webinspectapi) support for v9.30 and later.
 * [Fortify Software Security Center (SSC) REST API](https://pypi.python.org/pypi/fortifyapi) support for v16.10 and later.
 * WebInspect scan cluster support between two (2) or greater WebInspect servers/sensors.
 * Capabilities for extensible scan telemetry with ELK and Splunk.
 * GIT support for centrally managing [WebInspect scan configurations](https://github.com/automationdomination/Webinspect).
+* Replaces most functionality of Fortify's `fortifyclient`
 * Python compatibility with versions 2.x or 3.x
+* Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
-### Quick Local Installation ###
-Install WebBreaker from github.com.
-* ```git clone https://github.com/target/webbreaker```
-* ```export PATH=$PATH:$PYTHONPATH```
-* ```pip install -r requirements.txt```
-* ```python setup.py install```
+### Quick Local Installation and Configurations ###
+__Installing WebBreaker from source:__
+1. ```git clone https://github.com/target/webbreaker```
+1. ```pip install -r requirements.txt```
+1. ```python setup.py install```
 
-**NOTE:**
+__Configuring WebBreaker:__
+1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
+ [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
+1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
+[webbreaker/etc/fortify.ini](https://github.com/target/webbreaker/blob/master/webbreaker/etc/fortify.ini#L2)
+1. SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/email.ini#L2)
+1. Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the [GIT URL to the webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L33) and their respective directories.
 
-* As with any Python application [pip](https://pip.pypa.io/en/stable/installing) is required for install and execution.
-* Include your site-packages, if they are not declared ```export PATH=$PATH:$PYTHONPATH```.
-* WebBreaker is compatible with Jenkins Global Environmental variables or other custom parameterized strings in Jenkins can be passed, for example --scan_name=${BUILD_TAG}.
+**NOTES:**
+
+* _Required_: As with any Python application that contains library dependencies, [pip](https://pip.pypa.io/en/stable/installing) is required for installation.
+* _Optional_: Include your Python site-packages, if they are not already in your $PATH with ```export PATH=$PATH:$PYTHONPATH```.
 
 ### Usage ###
 WebBreaker is a command-line interface (CLI) client.  See our complete [_WebBreaker Documentation_](https://target.github.io/webbreaker/) for further configuration, usage, and installation.
@@ -42,60 +50,57 @@ Below is a Cheatsheet of supported commands to get you started.
 ---
 
 
-    List all scans:
+    List all WebInspect scans:
     webbreaker webinspect list --server webinspect-1.example.com:8083
     
-    Query scans:
+    Query WebInspect scans:
     webbreaker webinspect list --server webinspect-1.example.com:8083 --scan_name important_site
     
     List with http:
     webbreaker webinspect list --server webinspect-1.example.com:8083 --protocol http
 
-    Download WebInspect Scan:
+    Download WebInspect scan from server or sensor:
     webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth
     
-    Download WebInspect Scan as XML:
+    Download WebInspect scan as XML:
     webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth -x xml
     
-    Download WebInspect Scan with http:
+    Download WebInspect scan with http (no SSL):
     webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth --protocol http
     
-    Basic WebInspect Scan:
+    Basic WebInspect scan:
     webbreaker webinspect scan --settings important_site_auth
     
-    Advanced WebInspect Scan with overrides:
-    webbreaker webinspect scan --settings important_site_auth --allowed_hosts example.com --allowed_hosts m.example.com` |
+    Advanced WebInspect Scan with Scan overrides:
+    webbreaker webinspect scan --settings important_site_auth --allowed_hosts example.com --allowed_hosts m.example.com
     
     Scan with local WebInspect settings:
     webbreaker webinspect scan --settings /Users/Matt/Documents/important_site_auth
     
-    Initial Fortify SSC Initial Listing with Authentication:
-    webbreaker fortify list --fortify_user $FORTIFY_SSC_USER --fortify_password $FORTIFY_SSC_PASS
+    Initial Fortify SSC listing with authentication (SSC token is managed for 1-day):
+    webbreaker fortify list --fortify_user matt --fortify_password abc123
     
-    Interactive Listing of All Fortify SSC Application/Versions:
+    Interactive Listing of all Fortify SSC application versions:
     webbreaker fortify list
     
-    List Fortify SSC Versions of an Application:
-    webbreaker fortify list --application webinspect
+    List Fortify SSC versions by application (case sensitive):
+    webbreaker fortify list --application WEBINSPECT
     
-    Upload with passed auth:
+    Upload to Fortify SSC with command-line authentication:
     webbreaker fortify upload --fortify_user $FORT_USER --fortify_password $FORT_PASS --version important_site_auth
     
-    Upload with username/password prompts:
-    webbreaker fortify upload --version important_site_auth
-    
-    Upload with application override:
-    webbreaker fortify upload --application my_other_app --version important_site_auth
-    
-    Upload with scan_name overrides:
+    Upload to Fortify SSC with interactive authentication & application version configured with fortify.ini:
     webbreaker fortify upload --version important_site_auth --scan_name auth_scan
-
+    
+    Upload to Fortify SSC with application/project & version name:
+    webbreaker fortify upload --application my_other_app --version important_site_auth --scan_name auth_scan
+    
 ----
 
 ### WebBreaker Console Output ###
 
 ```
-webbreaker webinspect scan --settings MyCustomWebinspectSetting --scan_policy Application --scan_name some_scan_name
+webbreaker webinspect scan --settings MyCustomWebInspectSetting --scan_policy Application --scan_name some_scan_name
  _       __     __    ____                  __            
 | |     / /__  / /_  / __ )________  ____ _/ /_____  _____
 | | /| / / _ \/ __ \/ __  / ___/ _ \/ __ `/ //_/ _ \/ ___/

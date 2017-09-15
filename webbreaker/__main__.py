@@ -35,6 +35,7 @@ from webbreaker.fortifyclient import FortifyClient
 from webbreaker.fortifyconfig import FortifyConfig
 from webbreaker.webinspectscanhelpers import create_scan_event_handler
 from webbreaker.webinspectscanhelpers import scan_running
+from webbreaker.webbreakerhelper import WebBreakerHelper
 
 
 handle_scan_event = None
@@ -48,18 +49,15 @@ class Config(object):
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
-@click.group()
-@click.option('--help', help='Enter a product command: webinspect or fortify')
+@click.group(help=click.echo(WebBreakerHelper.help_description()))
 @pass_config
-def cli(config, help):
-    """WebBreaker is a Dynamic Application Security Test Orchestration (DASTO) product, with API support for.
-    WebInspect and Fortify SSC, more commercial products to be added in the future."""
+def cli(config):
+    WebBreakerHelper.help_description()
 
     # Show something pretty to start
     f = Figlet(font='slant')
     Logger.console.info("\n\n{0}Version {1}\n".format(f.renderText('WebBreaker'), version))
     Logger.console.info("Logging to files: {}".format(Logger.app_logfile))
-    config.help = help
 
 
 @cli.group(help="""WebInspect is dynamic application security testing software for assessing security of Web
