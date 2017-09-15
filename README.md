@@ -34,12 +34,13 @@ Install WebBreaker from github.com in 3 easy steps:
 
 Configuration can be completed by editing 2 WebBreaker files:
 1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
- `webbreaker/etc/webinspect.ini`
+ [webbreaker/etc/webinspect.ini](webbreaker/etc/webinspect.ini)
 1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
-`webbreaker/etc/fortify.ini`
+[webbreaker/etc/fortify.ini](webbreaker/etc/fortify.ini)
 
 **NOTES:**
-* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in `webbreaker/etc/email.ini`. 
+* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](webbreaker/etc/email.ini)
+* _Optional_: Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the GIT URL and their respective directories.
 
 ### Usage ###
 WebBreaker is a command-line interface (CLI) client.  See our complete [_WebBreaker Documentation_](https://target.github.io/webbreaker/) for further configuration, usage, and installation.
