@@ -16,7 +16,7 @@ class WebBreakerHelper(object):
 
     @classmethod
     def help_description(cls):
-        Logger.console.info('{}'.format("""
+        return """
     SYNOPSIS:
     webbreaker [webinspect|fortify] [list|scan|download|upload] [OPTIONS]
 
@@ -105,6 +105,6 @@ class WebBreakerHelper(object):
       --scan_name           If the scan file you wish to upload has a different name then --version, this option can
                             override which file WebBreaker uploads. Note: WebBreaker still assume the .fpr extension so
                             it should not be included here
-        """))
+        """
 
 
