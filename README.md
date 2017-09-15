@@ -17,14 +17,23 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * WebInspect scan cluster support between two (2) or greater WebInspect servers/sensors.
 * Capabilities for extensible scan telemetry with ELK and Splunk.
 * GIT support for centrally managing [WebInspect scan configurations](https://github.com/automationdomination/Webinspect).
+* Replaces most functionality of Fortify's `fortifyclient`
 * Python compatibility with versions 2.x or 3.x
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
-### Quick Local Installation ###
-Install WebBreaker from github.com in 3 easy steps:
+### Quick Local Installation and Configurations ###
+__Installing WebBreaker from source:__
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
 1. ```python setup.py install```
+
+__Configuring WebBreaker:__
+1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
+ [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
+1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
+[webbreaker/etc/fortify.ini](https://github.com/target/webbreaker/blob/master/webbreaker/etc/fortify.ini#L2)
+1. SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/email.ini#L2)
+1. Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the [GIT URL to the webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L33) and their respective directories.
 
 **NOTES:**
 
