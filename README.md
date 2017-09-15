@@ -21,7 +21,7 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * Python compatibility with versions 2.x or 3.x
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
-### Quick Local Installation and Configuration ###
+### Quick Local Installation and Configurations ###
 Install WebBreaker from github.com in 3 easy steps:
 1. ```git clone https://github.com/target/webbreaker```
 1. ```pip install -r requirements.txt```
@@ -37,10 +37,8 @@ Configuration can be completed by editing 2 WebBreaker files:
  [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
 1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
 [webbreaker/etc/fortify.ini](https://github.com/target/webbreaker/blob/master/webbreaker/etc/fortify.ini#L2)
-
-**NOTES:**
-* _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/email.ini#L2)
-* _Optional_: Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the [GIT URL to the webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L33) and their respective directories.
+1. SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/email.ini#L2)
+1. Mutually exclusive remote GIT repos created by users, are encouraged to persist WebInspect [settings](https://github.com/automationdomination/WebInspect/tree/master/settings), [policies](https://github.com/automationdomination/WebInspect/tree/master/policies), and [webmacros](https://github.com/automationdomination/WebInspect/tree/master/webmacros). Simply, add the [GIT URL to the webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L33) and their respective directories.
 
 ### Usage ###
 WebBreaker is a command-line interface (CLI) client.  See our complete [_WebBreaker Documentation_](https://target.github.io/webbreaker/) for further configuration, usage, and installation.
