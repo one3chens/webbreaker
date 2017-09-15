@@ -120,6 +120,8 @@ class WebInspectConfig(object):
                 Logger.app.error("The {0} is unable to be created! {1}".format(options['scan_name'], e))
 
         if options['upload_settings']:
+            if os.path.isfile(options['upload_settings'] + '.xml'):
+                options['upload_settings'] = options['upload_settings'] + '.xml'
             if not os.path.isfile(options['upload_settings']):
                 try:
                     options['upload_scan_settings'] = str("{}".format(os.path.join(os.path.dirname(__file__),
@@ -130,6 +132,8 @@ class WebInspectConfig(object):
             else:
                 options['upload_scan_settings'] = options['upload_settings']
         else:
+            if os.path.isfile(options['settings'] + '.xml'):
+                options['settings'] = options['settings'] + '.xml'
             if not os.path.isfile(options['settings']):
                 options['upload_settings'] = str("{}".format(os.path.join(os.path.dirname(__file__),
                                                                    self.webinspect_dir, 'settings',
@@ -164,6 +168,8 @@ class WebInspectConfig(object):
                 options['upload_webmacros'] = list(set(options['upload_webmacros']))
                 corrected_paths = []
                 for webmacro in options['upload_webmacros']:
+                    if os.path.isfile(webmacro + '.webmacro'):
+                        webmacro = webmacro + '.webmacro'
                     if not os.path.isfile(webmacro):
                         corrected_paths.append(str("{}".format(os.path.join(os.path.dirname(__file__),
                                                      self.webinspect_dir, 'webmacros',
@@ -177,12 +183,16 @@ class WebInspectConfig(object):
 
         # if upload_policy provided explicitly, follow that. otherwise, default to scan_policy if provided
         if options['upload_policy']:
+            if os.path.isfile(options['upload_policy'] + '.policy'):
+                options['upload_policy'] = options['upload_policy'] + '.policy'
             if not os.path.isfile(options['upload_policy']):
                 options['upload_policy'] = str("{}".format(os.path.join(os.path.dirname(__file__),
                                                            self.webinspect_dir, 'policies',
                                                            options['upload_policy'] + '.policy')))
 
         elif options['scan_policy']:
+            if os.path.isfile(options['scan_policy'] + '.policy'):
+                options['scan_policy'] = options['scan_policy'] + '.policy'
             if not os.path.isfile(options['scan_policy']):
                 options['upload_policy'] = str("{}".format(os.path.join(os.path.dirname(__file__),
                                                            self.webinspect_dir, 'policies',
