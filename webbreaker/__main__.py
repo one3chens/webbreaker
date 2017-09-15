@@ -258,7 +258,7 @@ def scan(config, **kwargs):
             "Unable to connect to WebInspect {0}, see also: {1}".format(webinspect_settings['webinspect_url'], e))
 
     if scan_id:
-        Logger.app.info("Scan log: {}".format(webinspect_client.get_scan_log(scan_guid=scan_id)))
+        Logger.app.debug("Scan log: {}".format(webinspect_client.get_scan_log(scan_guid=scan_id)))
 
     # And wrap up by writing out the issues we found
     # this should be moved into a function...probably a whole 'nother class, tbh

@@ -1,44 +1,46 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 
-
 from contextlib import contextmanager
 import os, datetime
 from signal import *
-import json
 try:
-    from urllib.parse import urlparse
-except ImportError:
     import urlparse as urlparse
-
+except ImportError:
+    from urllib.parse import urlparse
 from webbreaker.webbreakerconfig import WebBreakerConfig
+from webbreaker.webbreakerlogger import Logger
 
 handle_scan_event = None
 reporter = WebBreakerConfig().create_reporter()
 
+
 # Use a closure for events related to scan status changes
 def create_scan_event_handler(webinspect_client, scan_id, webinspect_settings):
     def scan_event_handler(event_type, external_termination=False):
+        try:
+            event = {}
+            event['scanid'] = scan_id
+            event['server'] = urlparse(webinspect_client.url).geturl()
+            event['scanname'] = webinspect_settings['webinspect_scan_name']
+            event['event'] = event_type
+            event['timestamp'] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            event['subject'] = 'WebBreaker ' + event['event']
 
-        event = {}
-        event['scanid'] = scan_id
-        event['server'] = urlparse(webinspect_client.url).geturl()
-        event['scanname'] = webinspect_settings['webinspect_scan_name']
-        event['event'] = event_type
-        event['timestamp'] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-        event['subject'] = 'WebBreaker ' + event['event']
+            if webinspect_settings['webinspect_allowed_hosts']:
+                event['targets'] = webinspect_settings['webinspect_allowed_hosts']
+            else:
+                event['targets'] = webinspect_settings['webinspect_scan_targets']
 
-        if webinspect_settings['webinspect_allowed_hosts']:
-            event['targets'] = webinspect_settings['webinspect_allowed_hosts']
-        else:
-            event['targets'] = webinspect_settings['webinspect_scan_targets']
+            reporter.report(event)
 
-        reporter.report(event)
-
-        if external_termination:
-            webinspect_client.stop_scan(scan_id)
+            if external_termination:
+                webinspect_client.stop_scan(scan_id)
+        except Exception as e:
+            Logger.console.error("Oh no: {}".format(e.message))
 
     return scan_event_handler
+
 
 # Special function here - called only when we're in a context (defined below) of intercepting process-termination
 # signals. If, while a scan is executing, WebBreaker receives a termination signal from the OS, we want to
