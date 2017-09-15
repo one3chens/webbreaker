@@ -34,9 +34,9 @@ Install WebBreaker from github.com in 3 easy steps:
 
 Configuration can be completed by editing 2 WebBreaker files:
 1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
- [webbreaker/etc/webinspect.ini](webbreaker/etc/webinspect.ini)
+ [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
 1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
-[webbreaker/etc/fortify.ini](webbreaker/etc/fortify.ini)
+[webbreaker/etc/fortify.ini](https://github.com/target/webbreaker/blob/master/webbreaker/etc/fortify.ini#L2)
 
 **NOTES:**
 * _Optional_: Additional configurations for SMTP settings on email notifications and a message template can be edited in [webbreaker/etc/email.ini](webbreaker/etc/email.ini)
