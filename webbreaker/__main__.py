@@ -49,11 +49,9 @@ class Config(object):
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
-@click.group(help=click.echo(WebBreakerHelper.help_description()))
+@click.group(help=WebBreakerHelper.help_description())
 @pass_config
 def cli(config):
-    WebBreakerHelper.help_description()
-
     # Show something pretty to start
     f = Figlet(font='slant')
     Logger.console.info("\n\n{0}Version {1}\n".format(f.renderText('WebBreaker'), version))
