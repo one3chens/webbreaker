@@ -37,7 +37,7 @@ class EmailNotifier(Notifier):
             mail_server.sendmail(msg['From'], msg['To'], msg.as_string())
 
             mail_server.quit()
-        except Exception as e:  # we don't want email failure to stop us, just log that it happened
+        except (Exception, AttributeError) as e:  # we don't want email failure to stop us, just log that it happened
             Logger.app.error("Error sending email. {}".format(e.message))
             Logger.console.error("Error sending email, see log: {}".format(Logger.app_logfile))
 
