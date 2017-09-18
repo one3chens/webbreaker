@@ -36,7 +36,10 @@ from webbreaker.fortifyconfig import FortifyConfig
 from webbreaker.webinspectscanhelpers import create_scan_event_handler
 from webbreaker.webinspectscanhelpers import scan_running
 from webbreaker.webbreakerhelper import WebBreakerHelper
-
+from webbreaker.gitapi import GitApi
+from webbreaker.gitclient import GitClient, GitUploader, write_agent_info
+import re
+import os
 
 handle_scan_event = None
 reporter = None
@@ -495,6 +498,45 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
                     "Fortify Application {} does not exist. Unable to upload scan.".format(application))
     except:
         Logger.console.critical("Unable to complete command 'fortify upload'")
+
+
+@cli.group(help="""TODO""")
+@pass_config
+def git(config):
+    pass
+
+
+@git.command()
+@click.option('--url',
+              required=True,
+              help="The url of the Git repo from which to find contributors. Ex: --url https://github.com/target/webbreaker")
+@pass_config
+def email(config, url):
+    parser = urlparse(url)
+    host = "{}://{}".format(parser.scheme, parser.netloc)
+    path = parser.path
+    r = re.search('\/(.*)\/', path)
+    owner = r.group(1)
+    r = re.search('\/.*\/(.*)', path)
+    repo = r.group(1)
+    git_client = GitClient(host=host)
+    emails = git_client.get_all_emails(owner, repo)
+    write_agent_info('git_emails', emails)
+
+
+
+
+
+@git.command('upload')
+@click.option('--webbreaker_agent',
+              required=False,
+              help="Optional override of url of WebBreaker Agent to contact")
+@pass_config
+def git_upload(config, webbreaker_agent):
+    git_uploader = GitUploader(webbreaker_agent)
+    git_uploader.upload()
+    # TODO: Add success checking from WebBreaker Agent
+
 
 
 if __name__ == '__main__':
