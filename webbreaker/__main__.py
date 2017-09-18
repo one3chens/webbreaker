@@ -37,8 +37,9 @@ from webbreaker.webinspectscanhelpers import create_scan_event_handler
 from webbreaker.webinspectscanhelpers import scan_running
 from webbreaker.webbreakerhelper import WebBreakerHelper
 from webbreaker.gitapi import GitApi
-from webbreaker.gitclient import GitClient, GitUploader
+from webbreaker.gitclient import GitClient, GitUploader, write_agent_info
 import re
+import os
 
 handle_scan_event = None
 reporter = None
@@ -520,7 +521,10 @@ def email(config, url):
     r = re.search('\/.*\/(.*)', path)
     repo = r.group(1)
     git_client = GitClient(host=host)
-    click.echo(git_client.get_all_emails(owner, repo))
+    emails = git_client.get_all_emails(owner, repo)
+    write_agent_info('git_emails', emails)
+
+
 
 
 

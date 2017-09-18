@@ -6,6 +6,7 @@ import requests
 import requests.exceptions
 import requests.packages.urllib3
 import os
+import json
 try:
     import ConfigParser as configparser
 except ImportError: #Python3
@@ -55,6 +56,26 @@ class GitClient(object):
         config_file = os.path.abspath(os.path.join('webbreaker', 'etc', 'webbreaker.ini'))
         config.read(config_file)
         return config.get("git", "token")
+
+
+def write_agent_info(name, value):
+    json_file_path = os.path.abspath(os.path.join('webbreaker', 'etc', 'agent.json'))
+    try:
+        if os.path.isfile(json_file_path):
+            with open(json_file_path, 'r') as json_file:
+                try:
+                    data = json.load(json_file)
+                except json.decoder.JSONDecodeError:
+                    data = {}
+                json_file.close()
+        else:
+            data = {}
+        data[name] = value
+        with open(json_file_path, 'w') as json_file:
+            json.dump(data, json_file)
+    except json.decoder.JSONDecodeError:
+        # TODO error and exit
+        pass
 
 
 class UploadLog(object):
