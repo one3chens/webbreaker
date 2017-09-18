@@ -28,7 +28,7 @@ class GitClient(object):
         if response.success:
             return response.data['email']
         else:
-            print(response.message)
+            Logger.console.error("Error finding emails address for user {}: {}".format(login, response.message))
             return None
 
     def get_contributors(self, owner, repo):
@@ -40,7 +40,7 @@ class GitClient(object):
                 contributors.append(contributor['login'])
             return contributors
         else:
-            print(response.message)
+            Logger.console.error("Error finding contributors: {}".format(response.message))
             return None
 
     def get_all_emails(self, owner, repo):
@@ -51,7 +51,10 @@ class GitClient(object):
                 email = self.get_user_email(login)
                 if email:
                     emails.append(email)
-        return emails
+        if len(emails):
+            return emails
+        else:
+            Logger.console.error("No contributor emails where found for this repo.")
 
     def get_token(self):
         config_file = os.path.abspath(os.path.join('webbreaker', 'etc', 'webbreaker.ini'))
