@@ -512,7 +512,6 @@ def git(config):
               help="The url of the Git repo from which to find contributors. Ex: --url https://github.com/target/webbreaker")
 @pass_config
 def email(config, url):
-    click.echo("You found the webbreaker git email command!")
     parser = urlparse(url)
     host = "{}://{}".format(parser.scheme, parser.netloc)
     path = parser.path
@@ -536,6 +535,7 @@ def email(config, url):
 def git_upload(config, webbreaker_agent):
     git_uploader = GitUploader(webbreaker_agent)
     git_uploader.upload()
+    # TODO: Add success checking from WebBreaker Agent
 
 
 
