@@ -7,7 +7,7 @@ import logging
 import requests
 import requests.exceptions
 import requests.packages.urllib3
-from webbreaker.webbreakerlogger import Logger
+
 
 class GitApi(object):
     def __init__(self, host, token, verify_ssl=True):
@@ -39,12 +39,12 @@ class GitApi(object):
 
     def _request(self, method, url):
         try:
-            Logger.app.debug('Performing method {}'.format(method))
-            Logger.app.debug('URL {}'.format(self.host + url))
+            logger('Performing method {}'.format(method))
+            logger('URL {}'.format(self.host + url))
             auth = "?access_token=" + self.token
             response = requests.request(method=method, url=self.host + url + auth, verify=self.verify_ssl)
 
-            Logger.app.debug('Response status code: {}'.format(str(response.status_code)))
+            logger('Response status code: {}'.format(str(response.status_code)))
 
             try:
                 response.raise_for_status()
@@ -91,3 +91,15 @@ class GitResponse(object):
             return json.dumps(self.data, sort_keys=True, indent=4, separators=(',', ': '))
         else:
             return json.dumps(self.data)
+
+def logger(name):
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s - %(message)s')
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.ERROR)
+    logger.addHandler(handler)
+
+    return logger
