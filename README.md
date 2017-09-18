@@ -28,6 +28,7 @@ __Installing WebBreaker from source:__
 1. ```python setup.py install```
 
 __Configuring WebBreaker:__
+1. Turn-on your [WebInspect API Service](https://software.microfocus.com/en-us/software/webinspect).
 1. Point _WebBreaker_ to your _WebInspect_ API server(s) by editing:
  [webbreaker/etc/webinspect.ini](https://github.com/target/webbreaker/blob/configuration/webbreaker/etc/webinspect.ini#L4)
 1. Point _WebBreaker_ to your _Fortify SSC_ URL by editing:
