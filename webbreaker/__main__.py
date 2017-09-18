@@ -534,8 +534,8 @@ def email(config, url):
               help="Optional override of url of WebBreaker Agent to contact")
 @pass_config
 def git_upload(config, webbreaker_agent):
-    click.echo("You found the webbreaker git upload command!")
-
+    git_uploader = GitUploader(webbreaker_agent)
+    git_uploader.upload()
 
 
 
