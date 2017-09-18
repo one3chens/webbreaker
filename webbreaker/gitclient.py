@@ -106,7 +106,8 @@ class UploadJSON(object):
             Logger.console.error("No emails were found to notify. Please run 'webbreaker git emails --url [REPO URL]'")
             return -1
         if not 'fortify_pv_url' in data:
-            Logger.console.error("No Fortify Project Version URL was found. Please run 'webbreaker fortify scan --application <some_value> --version <some_value>'")
+            Logger.console.error("""No Fortify Project Version URL was found. Please run 'webbreaker fortify scan 
+                                    --application <some_value> --version <some_value>'""")
             return -1
         if not 'fortify_build_id' in data:
             Logger.console.error("No Fortify Build ID found. Please run 'webbreaker fortify scan --build_id [BUILD_ID]'")
