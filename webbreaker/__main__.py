@@ -513,8 +513,17 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
               required=False,
               help="Jenkins BuildID")
 @pass_config
-def fortify_scan(fortify_user, fortify_passowrd, application, version, build_id):
-    pass
+def fortify_scan(config, fortify_user, fortify_password, application, version, build_id):
+    fortify_config = FortifyConfig()
+    if application:
+        fortify_config.application_name = application
+    fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
+                                   project_template=fortify_config.project_template,
+                                   application_name=fortify_config.application_name,
+                                   fortify_username=fortify_user,
+                                   fortify_password=fortify_password, scan_name=version)
+    pv_url = fortify_client.build_pv_url()
+    Logger.console.critical(pv_url)
 
 
 

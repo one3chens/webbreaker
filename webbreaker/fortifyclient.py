@@ -197,3 +197,11 @@ class FortifyClient(object):
         elif not response.success and "401" in response.message:
             return response.response_code
         return None
+
+    def build_pv_url(self):
+        version_id = self.__get_project_version__()
+        if not version_id:
+            return None
+        if self.ssc_server[-1] == '/':
+            self.ssc_server= self.ssc_server[:-1]
+        return self.ssc_server + '/ssc/html/ssc/index.jsp#!/version/' + str(version_id)
