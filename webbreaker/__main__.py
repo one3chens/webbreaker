@@ -500,6 +500,24 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
         Logger.console.critical("Unable to complete command 'fortify upload'")
 
 
+@fortify.command('scan')
+@click.option('--fortify_user')
+@click.option('--fortify_password')
+@click.option('--application',
+              required=False,
+              help="Name of the Fortify application that version belongs to. If this option is not provided, application_name from fortify.ini will be used.")
+@click.option('--version',
+              required=True,
+              help="Name of Fortify application version which you would like to upload a scan to.")
+@click.option('--build_id',
+              required=False,
+              help="Jenkins BuildID")
+@pass_config
+def fortify_scan(fortify_user, fortify_passowrd, application, version, build_id):
+    pass
+
+
+
 @cli.group(help="""TODO""")
 @pass_config
 def git(config):
