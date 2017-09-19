@@ -1,7 +1,5 @@
 ## Introduction
 
-----
-
 Build functional security testing, into your software development and release cycles! WebBreaker provides the capabilities to automate and centrally manage Dynamic Application Security Testing (DAST) as part of your DevOps pipeline.
 
 WebBreaker truly enables all members of the Software Security Development Life-Cycle (SDLC), with access to security testing, greater test coverage with increased visibility by providing Dynamic Application Security Test Orchestration (DASTO).  Current support is limited to the World's most popular commercial DAST product, WebInspect.
@@ -10,8 +8,6 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 ![WebBreaker System Architecture](images/WebBreakerSystemArchitecture.jpg)
 
 ## Supported Features
-
-----
 
 * Command-line (CLI) scan administration of WebInspect with Foritfy SSC products.
 * [Jenkins](https://jenkins.io) Environmental Variable & String Parameter support (i.e. $BUILD_TAG)
@@ -28,8 +24,6 @@ WebBreaker truly enables all members of the Software Security Development Life-C
 * Provides AES 128-bit key management for all secrets from the [Fernet encryption](https://pypi.python.org/pypi/cryptography/) Python library.
 
 ## Quick Local Installation and Configurations
-
-----
 
 __Installing WebBreaker from source:__
 1. ```git clone https://github.com/target/webbreaker```
@@ -49,8 +43,6 @@ __Configuring WebBreaker:__
 * _Optional_: Include your Python site-packages, if they are not already in your $PATH with ```export PATH=$PATH:$PYTHONPATH```.
 
 ## Usage
-
-----
 
 WebBreaker is a command-line interface (CLI) client.  See our complete [_WebBreaker Documentation_](https://target.github.io/webbreaker/) for further configuration, usage, and installation.
 
@@ -130,12 +122,9 @@ Webbreaker complete.
 
 ## Bugs and Feature Requests
 
-----
-
 Found something that doesn't seem right or have a feature request? [Please open a new issue](https://github.com/target/webbreaker/issues/new/).
 
 ## Copyright and License
-----
 
 [![license](https://img.shields.io/github/license/target/webbreaker.svg?style=flat-square)](https://github.com/target/webbreaker/blob/master/LICENSE.txt)
 
