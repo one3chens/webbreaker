@@ -121,6 +121,6 @@ Webbreaker complete.
 Found something that doesn't seem right or have a feature request? [Please open a new issue](https://github.com/target/webbreaker/issues/new/).
 
 ### Copyright and License
+[![license](https://img.shields.io/github/license/target/webbreaker.svg?style=flat-square)](https://github.com/target/webbreaker/blob/master/LICENSE.txt)
 
-* Copyright 2017 Target Brands, Inc.
-* [Licensed under MIT](LICENSE.txt).
+Copyright 2017 Target Brands, Inc.
