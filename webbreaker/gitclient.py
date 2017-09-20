@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from gitapi.git import GitApi
+from webbreaker.gitapi.git import GitApi
 from webbreaker.webbreakerlogger import Logger
 import requests
 import requests.exceptions
