@@ -231,12 +231,19 @@ class FortifyClient(object):
 
     def build_pv_url(self):
         version_id = self.__get_project_version__()
+        if version_id == -1:
+            # This signals that an auth error occurred, CLI will attempt to reauth
+            return -1
         if not self.__get_project_id__(self.application_name):
             version_id = self.__create_new_project_version__()
             if not version_id:
-                exit(1)
+                Logger.console.error("Unable to create new project version, see logs for details.")
+                return None
         if not version_id:
-            project_version_id = self.__create_project_version__()
+            version_id = self.__create_project_version__()
+            if not version_id:
+                Logger.console.error("Unable to create new project version, see logs for details.")
+                return None
         if self.ssc_server[-1] == '/':
             self.ssc_server= self.ssc_server[:-1]
         return self.ssc_server + '/ssc/html/ssc/index.jsp#!/version/' + str(version_id)
