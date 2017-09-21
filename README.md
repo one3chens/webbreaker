@@ -98,6 +98,7 @@ Below is a Cheatsheet of supported commands to get you started.
     Upload to Fortify SSC with application/project & version name:
     webbreaker fortify upload --application my_other_app --version important_site_auth --scan_name auth_scan
     
+## Console Output
 
 ![WebBreaker](images/webbreaker-monitor.jpeg)
 
