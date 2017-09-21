@@ -509,7 +509,7 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
               required=True,
               help="Name of Fortify application version.")
 @click.option('--build_id',
-              required=False,
+              required=True,
               help="Jenkins BuildID")
 @pass_config
 def fortify_scan(config, fortify_user, fortify_password, application, version, build_id):
@@ -554,7 +554,8 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
             pv_url = fortify_client.build_pv_url()
 
         if pv_url and pv_url != -1:
-            Logger.console.critical(pv_url)
+            write_agent_info('fortify_pv_url', pv_url)
+            write_agent_info('fortify_build_id', build_id)
         else:
             Logger.console.critical("Unable to complete command 'fortify scan'")
 
@@ -568,7 +569,8 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
         Logger.console.info("Fortify secret written to fortify.ini")
         pv_url = fortify_client.build_pv_url()
         if pv_url and pv_url != -1:
-            Logger.console.critical(pv_url)
+            write_agent_info('fortify_pv_url', pv_url)
+            write_agent_info('fortify_build_id', build_id)
         else:
             Logger.console.critical("Unable to complete command 'fortify scan'")
 
