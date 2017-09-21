@@ -99,25 +99,7 @@ Below is a Cheatsheet of supported commands to get you started.
     webbreaker fortify upload --application my_other_app --version important_site_auth --scan_name auth_scan
     
 
-## WebBreaker Console Output
-
-```
-webbreaker webinspect scan --settings MyCustomWebInspectSetting --scan_policy Application --scan_name some_scan_name
- _       __     __    ____                  __            
-| |     / /__  / /_  / __ )________  ____ _/ /_____  _____
-| | /| / / _ \/ __ \/ __  / ___/ _ \/ __ `/ //_/ _ \/ ___/
-| |/ |/ /  __/ /_/ / /_/ / /  /  __/ /_/ / ,< /  __/ /    
-|__/|__/\___/_.___/_____/_/   \___/\__,_/_/|_|\___/_/     
-
-Version 1.2.0
-
-JIT Scheduler has selected endpoint https://some.webinspect.server.com:8083.
-WebInspect scan launched on https://some.webinspect.server.com:8083 your scan id: ec72be39-a8fa-46b2-ba79-10adb52f8adb !!
-
-Scan results file is available: some_scan_name.fpr
-Scan has finished.
-Webbreaker complete.
-```
+![WebBreaker](images/webbreaker-monitor.jpeg)
 
 ## Bugs and Feature Requests
 
