@@ -615,9 +615,9 @@ def git_upload(config, webbreaker_agent):
     git_uploader = GitUploader(webbreaker_agent)
     response = git_uploader.upload()
     if response == 200:
-        Logger.console.info("Request to {} successful.")
+        Logger.console.info("Request to {} successful.".format(git_uploader.agent_url))
     else:
-        Logger.console.info("Request to {} was unsuccessful. Unable to complete command 'git upload'")
+        Logger.console.info("Request to {} was unsuccessful. Unable to complete command 'git upload'".format(git_uploader.agent_url))
 
 
 
