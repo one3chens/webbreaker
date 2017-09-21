@@ -597,7 +597,10 @@ def email(config, url):
     repo = r.group(1)
     git_client = GitClient(host=host)
     emails = git_client.get_all_emails(owner, repo)
-    write_agent_info('git_emails', emails)
+    if emails:
+        write_agent_info('git_emails', emails)
+    else:
+        Logger.console.info("Unable to complete command 'git email'")
 
 
 
@@ -610,8 +613,11 @@ def email(config, url):
 @pass_config
 def git_upload(config, webbreaker_agent):
     git_uploader = GitUploader(webbreaker_agent)
-    git_uploader.upload()
-    # TODO: Add success checking from WebBreaker Agent
+    response = git_uploader.upload()
+    if response == 200:
+        Logger.console.info("Request to {} successful.")
+    else:
+        Logger.console.info("Request to {} was unsuccessful. Unable to complete command 'git upload'")
 
 
 

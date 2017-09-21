@@ -97,6 +97,24 @@ Below is a Cheatsheet of supported commands to get you started.
     
     Upload to Fortify SSC with application/project & version name:
     webbreaker fortify upload --application my_other_app --version important_site_auth --scan_name auth_scan
+
+    Retrieve and store Fortify Version url and Jenkins BuildID:
+    webbreaker fortify scan --version important_site_auth --build_id my_latest_build
+
+    Retrieve and store Fortify Version url and Jenkins BuildID with Fortify Application override:
+    webbreaker fortify scan --application my_other_app --version important_site_auth --build_id my_latest_build
+
+    Retrieve and store Fortify Version url and Jenkins BuildID with command-line authentication:
+    webbreaker fortify scan --version important_site_auth --build_id my_latest_build --fortify_user $FORT_USER --fortify_password $FORT_PASS
+
+    Retrieve and store public emails of contributors to the webbreaker repo:
+    webbreaker git email --url https://github.com/target/webbreaker
+
+    Send CloudScan notification request to WebBreaker Agent containing stored information from 'git email' and 'fortify scan':
+    webbreaker git upload
+
+    Send CloudScan notification request to overridden WebBreaker Agent containing stored information from 'git email' and 'fortify scan':
+    webbreaker git upload --webbreaker_agent https://my_webbreaker_agent.io/api/v1/fortify-cloudscan
     
 ## Console Output
 
