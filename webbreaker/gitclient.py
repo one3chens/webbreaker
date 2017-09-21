@@ -137,5 +137,6 @@ class GitUploader(object):
         data['fortify_build_id'] = self.upload_log.fortify_build_id
         data['git_emails'] = self.upload_log.git_emails
         response = requests.put(self.agent_url, data=data)
+        return response.status_code
 
 
