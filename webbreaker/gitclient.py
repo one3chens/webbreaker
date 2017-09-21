@@ -51,10 +51,14 @@ class GitClient(object):
                 email = self.get_user_email(login)
                 if email:
                     emails.append(email)
+        else:
+            Logger.console.error("Unable to retrieve list of contributors for this repo.")
+            return None
         if len(emails):
             return emails
         else:
             Logger.console.error("No contributor emails where found for this repo.")
+            return None
 
     def get_token(self):
         config_file = os.path.abspath(os.path.join('webbreaker', 'etc', 'webbreaker.ini'))
