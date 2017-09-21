@@ -507,7 +507,7 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
               help="Name of the Fortify application that version belongs to. If this option is not provided, application_name from fortify.ini will be used.")
 @click.option('--version',
               required=True,
-              help="Name of Fortify application version which you would like to upload a scan to.")
+              help="Name of Fortify application version.")
 @click.option('--build_id',
               required=False,
               help="Jenkins BuildID")
@@ -516,13 +516,61 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
     fortify_config = FortifyConfig()
     if application:
         fortify_config.application_name = application
-    fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
-                                   project_template=fortify_config.project_template,
-                                   application_name=fortify_config.application_name,
-                                   fortify_username=fortify_user,
-                                   fortify_password=fortify_password, scan_name=version)
-    pv_url = fortify_client.build_pv_url()
-    Logger.console.critical(pv_url)
+
+    if not fortify_user or not fortify_password:
+        Logger.console.info("No Fortify username or password provided. Checking fortify.ini for secret")
+        if fortify_config.secret:
+            Logger.console.info("Fortify secret found in fortify.ini")
+            fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
+                                           project_template=fortify_config.project_template,
+                                           application_name=fortify_config.application_name,
+                                           token=fortify_config.secret, scan_name=version)
+        else:
+            Logger.console.info("Fortify secret not found in fortify.ini")
+            fortify_user = click.prompt('Fortify user')
+            fortify_password = click.prompt('Fortify password', hide_input=True)
+            fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
+                                           project_template=fortify_config.project_template,
+                                           application_name=fortify_config.application_name,
+                                           fortify_username=fortify_user,
+                                           fortify_password=fortify_password, scan_name=version)
+            fortify_config.write_secret(fortify_client.token)
+            Logger.console.info("Fortify secret written to fortify.ini")
+
+        pv_url = fortify_client.build_pv_url()
+
+        if pv_url == -1:
+            Logger.console.info("Fortify secret invalid...reauthorizing")
+            fortify_user = click.prompt('Fortify user')
+            fortify_password = click.prompt('Fortify password', hide_input=True)
+            fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
+                                           project_template=fortify_config.project_template,
+                                           application_name=fortify_config.application_name,
+                                           fortify_username=fortify_user,
+                                           fortify_password=fortify_password, scan_name=version)
+            fortify_config.write_secret(fortify_client.token)
+            Logger.console.info("Fortify secret written to fortify.ini")
+            Logger.console.info("Attempting to rerun 'fortify scan'")
+            pv_url = fortify_client.build_pv_url()
+
+        if pv_url and pv_url != -1:
+            Logger.console.critical(pv_url)
+        else:
+            Logger.console.critical("Unable to complete command 'fortify scan'")
+
+    else:
+        fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
+                                       project_template=fortify_config.project_template,
+                                       application_name=fortify_config.application_name,
+                                       fortify_username=fortify_user,
+                                       fortify_password=fortify_password, scan_name=version)
+        fortify_config.write_secret(fortify_client.token)
+        Logger.console.info("Fortify secret written to fortify.ini")
+        pv_url = fortify_client.build_pv_url()
+        if pv_url and pv_url != -1:
+            Logger.console.critical(pv_url)
+        else:
+            Logger.console.critical("Unable to complete command 'fortify scan'")
 
 
 
