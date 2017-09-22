@@ -172,10 +172,11 @@ class FortifyClient(object):
         api = FortifyApi(self.ssc_server, token=self.token, verify_ssl=False)
         project_version_id = self.__get_project_version__()
         # If our project doesn't exist, exit upload_scan
-        if project_version_id == -2:
-           return -2
         if project_version_id == -1:
             return -1
+        project_id = self.__get_project_id__(self.application_name)
+        if not project_id:
+            project_version_id = self.__create_new_project_version__()
         if not project_version_id:
             project_version_id = self.__create_project_version__()
         if project_version_id:
