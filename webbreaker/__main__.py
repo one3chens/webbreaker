@@ -319,6 +319,9 @@ def webinspect_list(config, server, scan_name, protocol):
 @click.option('--scan_name',
               required=True,
               help="Name of scan to be downloaded")
+@click.option('--scan_id',
+              required=False,
+              help="ID of scan to be downloaded. Scan will be downloaded as [scan_name].[x]")
 @click.option('-x',
               required=False,
               default="fpr",
@@ -329,23 +332,30 @@ def webinspect_list(config, server, scan_name, protocol):
               default='https',
               help="The protocol used to contact the webinspect server. Default protocol is https")
 @pass_config
-def download(config, server, scan_name, x, protocol):
+def download(config, server, scan_name, scan_id, x, protocol):
     query_client = WebinspectQueryClient(host=server, protocol=protocol)
+
     try:
-        search_results = query_client.get_scan_by_name(scan_name)
-        if len(search_results) == 0:
-            Logger.console.info("No scans matching the name {} where found on this host".format(scan_name))
-        elif len(search_results) == 1:
-            scan_id = search_results[0]['ID']
-            Logger.console.info(
-                "Scan matching the name {} found.\nDownloading scan {} ...".format(scan_name, scan_id))
-            query_client.export_scan_results(scan_id, scan_name, x)
+        if not scan_id:
+            search_results = query_client.get_scan_by_name(scan_name)
+            if len(search_results) == 0:
+                Logger.console.info("No scans matching the name {} where found on this host".format(scan_name))
+            elif len(search_results) == 1:
+                scan_id = search_results[0]['ID']
+                Logger.console.info(
+                    "Scan matching the name {} found.\nDownloading scan {} ...".format(scan_name, scan_id))
+                query_client.export_scan_results(scan_id, scan_name, x)
+            else:
+                Logger.console.info("Multiple scans matching the name {} found.".format(scan_name))
+                Logger.console.info("{0:80} {1:40} {2:10}".format('Scan Name', 'Scan ID', 'Scan Status'))
+                Logger.console.info("{0:80} {1:40} {2:10}\n".format('-' * 80, '-' * 40, '-' * 10))
+                for result in search_results:
+                    Logger.console.info("{0:80} {1:40} {2:10}".format(result['Name'], result['ID'], result['Status']))
         else:
-            Logger.console.info("Multiple scans matching the name {} found.".format(scan_name))
-            Logger.console.info("{0:80} {1:40} {2:10}".format('Scan Name', 'Scan ID', 'Scan Status'))
-            Logger.console.info("{0:80} {1:40} {2:10}\n".format('-' * 80, '-' * 40, '-' * 10))
-            for result in search_results:
-                Logger.console.info("{0:80} {1:40} {2:10}".format(result['Name'], result['ID'], result['Status']))
+            if query_client.get_scan_status(scan_id):
+                query_client.export_scan_results(scan_id, scan_name, x)
+            else:
+                Logger.console.error("Unable to find scan with ID matching {}".format(scan_id))
     except:
         Logger.console.info("Unable to complete command 'webinspect download'")
 

@@ -123,6 +123,11 @@ Download the results of scan 'important_site_auth' from webinspect-server-2.exam
 > webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth -x xml
 ```
 
+Download WebInspect scan by ID. Scan will be downloaded as important_site_auth.fpr (This is helpful when multiple scans have the same_name):
+```
+> webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth --scan_id my_important_scans_id
+```
+
 Download the results from the important_site_auth scan found on webinspect-server-2.example.com:8083 as an fpr file. All interaction with webinspect-server-2.example.com:8083 will use http instead of https
 ```
 > webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth --protocol http

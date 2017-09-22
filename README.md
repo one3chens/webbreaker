@@ -67,6 +67,9 @@ Below is a Cheatsheet of supported commands to get you started.
     
     Download WebInspect scan as XML:
     webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth -x xml
+
+    Download WebInspect scan by ID:
+    webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth --scan_id my_important_scans_id
     
     Download WebInspect scan with http (no SSL):
     webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth --protocol http

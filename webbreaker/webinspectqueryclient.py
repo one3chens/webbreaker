@@ -64,3 +64,13 @@ class WebinspectQueryClient(object):
         else:
             Logger.app.critical("{}".format(response.message))
 
+
+    def get_scan_status(self, scan_guid):
+        api = webinspectapi.WebInspectApi(self.host, verify_ssl=False)
+        try:
+            response = api.get_current_status(scan_guid)
+            status = json.loads(response.data_json())['ScanStatus']
+            return status
+        except (ValueError, TypeError, UnboundLocalError) as e:
+            Logger.app.error("get_scan_status failed: {}".format(e))
+            return None
