@@ -10,7 +10,7 @@ __license__ = "MIT"
 
 try:
     from signal import *
-    import urlparse as urlparse
+    from urlparse import urlparse
     # from urllib.parse import urlparse
 except ImportError: #Python3
     import html.entities as htmlentitydefs
@@ -584,7 +584,7 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
 
 
 
-@cli.group(help="""TODO""")
+@cli.group(help="""Interaction with a GitHub or GHE API. Used to gather and send information needed for WebBreaker Agent notifications.""")
 @pass_config
 def git(config):
     pass
