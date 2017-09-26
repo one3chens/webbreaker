@@ -121,7 +121,7 @@ Below is a Cheatsheet of supported commands to get you started.
     
 ## Console Output
 
-![WebBreaker](images/webbreaker-screen.jpeg)
+![WebBreaker](images/webbreaker-screen.jpg)
 
 ## Bugs and Feature Requests
 
