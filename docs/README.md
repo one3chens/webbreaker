@@ -18,6 +18,7 @@
 
 - [Fortify configuration: `fortify_config`](#fortify-config)
 - [WebInspect configuration: `webinspect_config`](#webinspect-config)
+- [WebBreaker configuration: `webbreaker_config`](#webbreaker-config)
 - [Logging configuration: `logging_config`](#logging-config)
 - [Email configuration: `email_config`](#email-config)
 - [WebInspect settings: `webinspect_settings`](#webinspect-settings)
@@ -70,6 +71,10 @@ Webbreak utilizes a structure of upper-level and lower-level commands to enable 
   - fortify
     - list
     - upload
+    - scan
+  - git
+    - email
+    - upload
 
 A promper Webbreaker command utilizes the structure 'webbreaker [webinspect|fortify] [lower-level command] [OPTIONS]'
 
@@ -116,6 +121,11 @@ Because multiple scan names on webinspect-server-2.example.com:8083 match 'impor
 Download the results of scan 'important_site_auth' from webinspect-server-2.example.com:8083 in xml format
 ```
 > webbreaker webinspect download --server webinspect-server-2.example.com:8083 --scan_name important_site_auth -x xml
+```
+
+Download WebInspect scan by ID. Scan will be downloaded as important_site_auth.fpr (This is helpful when multiple scans have the same_name):
+```
+> webbreaker webinspect download --server webinspect-2.example.com:8083 --scan_name important_site_auth --scan_id my_important_scans_id
 ```
 
 Download the results from the important_site_auth scan found on webinspect-server-2.example.com:8083 as an fpr file. All interaction with webinspect-server-2.example.com:8083 will use http instead of https
@@ -182,6 +192,45 @@ Upload the file auth_scan.fpr to the important_site_auth version on Fortify
 ```
 > webbreaker fortify upload --version important_site_auth --scan_name auth_scan
 ```
+
+#### Fortify Scan
+
+Retrieve and store Fortify Version url and Jenkins BuildID in agent.json. If application is not provided, WebBreaker will use the application in fortify.ini. User will be prompted for their username and password to authenticate to Fortify
+```
+> webbreaker fortify scan --version important_site_auth --build_id my_latest_build
+```
+
+Retrieve and store Fortify Version url and Jenkins BuildID in agent.json with Fortify Application override. User will be prompted for their username and password to authenticate to Fortify
+```
+> webbreaker fortify scan --application my_other_app --version important_site_auth --build_id my_latest_build
+```
+
+Retrieve and store Fortify Version url and Jenkins BuildID with command-line authentication. Authentication to Fortify will use the username and password I have stored as environment variables
+```
+> webbreaker fortify scan --version important_site_auth --build_id my_latest_build --fortify_user $FORT_USER --fortify_password $FORT_PASS
+```
+
+#### Git Email
+
+Retrieve and store public emails of contributors to the webbreaker repo. Communication with the Git API requires a token stored in webbreaker.ini
+```
+> webbreaker git email --url https://github.com/target/webbreaker
+```
+
+#### Git Upload
+
+Send CloudScan notification request to WebBreaker Agent containing stored information from 'git email' and 'fortify scan'. Request will be made to the WebBreaker Agent url stored in webbreaker.ini
+```
+> webbreaker git upload
+```
+
+Send CloudScan notification request to overridden WebBreaker Agent containing stored information from 'git email' and 'fortify scan':
+```
+> webbreaker git upload --webbreaker_agent https://my_webbreaker_agent.io/api/v1/fortify-cloudscan
+```
+
+
+
 
 ## Logging
 WebBreaker may be implemented with Elastic Stack for log aggregation. Recommended compenents include Filebeat agents installed on all WebInspect servers, forwarding to Logstash, and visualized in Kibana. General implementation details are [here](https://qbox.io/blog/welcome-to-the-elk-stack-elasticsearch-logstash-kibana/).  A recommended approach is to tag log events and queries with ```WebInspect``` and ```webbreaker```, but remember queries are case sensitive.
@@ -279,6 +328,20 @@ default=large
 [configuration_repo]
 git = git@github.com:target/webbreaker.git
 dir = webbreaker/etc/webinspect/
+```
+
+### WebBreaker Configuration: `webbreaker_config`
+Webbreaker configuration file `webbreaker/etc/webbreaker.ini` stores Git API auth token and url of a default WebBreaker Agent.
+
+#### File
+*webbreaker/etc/webbreaker.ini*
+
+#### Example
+```
+[git]
+token = this_is_my_super_secret_token
+[agent]
+webbreaker_agent = https://my_webbreaker_agent.io/api/v1/fortify-cloudscan
 ```
 
 ### Logging Configuration: `logging_config`

@@ -134,10 +134,13 @@ class WebInspectConfig(object):
         else:
             if os.path.isfile(options['settings'] + '.xml'):
                 options['settings'] = options['settings'] + '.xml'
-            if not os.path.isfile(options['settings']):
+            if not os.path.isfile(options['settings']) and options['settings'] != 'Default':
                 options['upload_settings'] = str("{}".format(os.path.join(os.path.dirname(__file__),
                                                                    self.webinspect_dir, 'settings',
                                                                    options['settings'] + '.xml')))
+            elif options['settings'] == 'Default':
+                # All WebInspect servers come with a Default.xml settings file, no need to upload it
+                options['upload_settings'] = None
             else:
                 options['upload_settings'] = options['settings']
                 # Settings is used later by the api so we need to cut off the filepath info
@@ -201,8 +204,10 @@ class WebInspectConfig(object):
                 options['upload_policy'] = options['scan_policy']
 
         # Determine the targets specified in a settings file
-        targets = self.__getScanTargets__(options['upload_settings'])
-
+        if options['upload_settings']:
+            targets = self.__getScanTargets__(options['upload_settings'])
+        else:
+            targets = None
         # Unless explicitly stated --allowed_hosts by default will use all values from --start_urls
         if not options['allowed_hosts']:
             options['allowed_hosts'] = options['start_urls']

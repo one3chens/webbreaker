@@ -193,7 +193,7 @@ class WebinspectClient(object):
             response = api.get_current_status(scan_guid)
             status = json.loads(response.data_json())['ScanStatus']
             return status
-        except (ValueError, UnboundLocalError) as e:
+        except (ValueError, UnboundLocalError, TypeError) as e:
             Logger.app.error("get_scan_status failed: {}".format(e))
             return "Unknown"
 
