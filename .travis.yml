@@ -1,0 +1,16 @@
+sudo: false
+language: python
+python:
+  - "2.7"
+  - "3.6"
+  - "nightly"
+
+install:
+# work-around to install cryptography dependency of known setup-tools bug
+  - pip install -r requirements.txt --use-mirrors
+  - python setup.py -q build
+  - python setup.py -q install
+  - pip install tox-travis
+
+# command to run tests
+script: tox
