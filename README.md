@@ -1,5 +1,5 @@
 ## Introduction
-[![Build Status](https://travis-ci.org/target/webbreaker.svg?branch=master)]
+[![Build Status](https://travis-ci.org/target/webbreaker.svg?branch=master)
 [![Author](https://img.shields.io/badge/author-BrandonSpruth-blue.svg?style=flat-square)](http://brandon.spruth.co)
 
 Build functional security testing, into your software development and release cycles! WebBreaker provides the capabilities to automate and centrally manage Dynamic Application Security Testing (DAST) as part of your DevOps pipeline.
