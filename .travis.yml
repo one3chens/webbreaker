@@ -5,6 +5,10 @@ python:
   - "3.6"
   - "nightly"
 
+branches:
+  except:
+    - gh-pages
+    
 install:
 # work-around to install cryptography dependency of known setup-tools bug
   - pip install -r requirements.txt --use-mirrors
