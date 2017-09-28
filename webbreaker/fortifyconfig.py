@@ -32,14 +32,32 @@ class FortifyConfig(object):
 
             secret_client = SecretClient()
             self.secret = secret_client.get('fortify', 'fortify', 'fortify_token')
+            self.username = secret_client.get('fortify', 'fortify', 'fortify_username')
+            self.password = secret_client.get('fortify', 'fortify', 'fortify_password')
 
         except (configparser.NoOptionError, CalledProcessError) as noe:
             Logger.console.error("{} has incorrect or missing values {}".format(config_file, noe))
         except configparser.Error as e:
             Logger.app.error("Error reading {} {}".format(config_file, e))
 
-    def write_secret(self, secret):
-        self.secret = secret
+    def write_token(self, token):
+        self.secret = token
 
         secret_client = SecretClient()
-        secret_client.set('fortify', 'fortify', 'fortify_token', self.secret)
+        secret_client.set('fortify', 'fortify', 'fortify_token', token)
+
+    def write_username(self, username):
+        self.username = username
+        secret_client = SecretClient()
+        secret_client.set('fortify', 'fortify', 'fortify_username', username)
+
+    def write_password(self, password):
+        self.password = password
+        secret_client = SecretClient()
+        secret_client.set('fortify', 'fortify', 'fortify_password', password)
+
+    def has_auth_creds(self):
+        if self.username and self.password:
+            return True
+        else:
+            return False
