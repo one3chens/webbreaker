@@ -52,6 +52,12 @@ class Config(object):
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
+def fortify_prompt():
+    fortify_user = click.prompt('Fortify user')
+    fortify_password = click.prompt('Fortify password', hide_input=True)
+    return fortify_user, fortify_password
+
+
 @click.group(help=WebBreakerHelper.help_description())
 @pass_config
 def cli(config):
@@ -386,8 +392,7 @@ def fortify_list(config, fortify_user, fortify_password, application):
                 fortify_config.write_token(fortify_client.token)
             else:
                 Logger.console.info("Fortify secret not found in fortify.ini")
-                fortify_user = click.prompt('Fortify user')
-                fortify_password = click.prompt('Fortify password', hide_input=True)
+                fortify_user, fortify_password = fortify_prompt()
                 fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, fortify_username=fortify_user,
                                                fortify_password=fortify_password)
                 secret_client = SecretClient()
@@ -403,8 +408,7 @@ def fortify_list(config, fortify_user, fortify_password, application):
                         fortify_user = fortify_config.username
                         fortify_password = fortify_config.password
                     else:
-                        fortify_user = click.prompt('Fortify user')
-                        fortify_password = click.prompt('Fortify password', hide_input=True)
+                        fortify_user, fortify_password = fortify_prompt()
                         fortify_config.write_username(fortify_user)
                         fortify_config.write_password(fortify_password)
                     fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, fortify_username=fortify_user,
@@ -421,8 +425,7 @@ def fortify_list(config, fortify_user, fortify_password, application):
                         fortify_user = fortify_config.username
                         fortify_password = fortify_config.password
                     else:
-                        fortify_user = click.prompt('Fortify user')
-                        fortify_password = click.prompt('Fortify password', hide_input=True)
+                        fortify_user, fortify_password = fortify_prompt()
                     fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, fortify_username=fortify_user,
                                                    fortify_password=fortify_password)
                     fortify_config.write_token(fortify_client.token)
@@ -479,8 +482,7 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
                 fortify_config.write_token(fortify_client.token)
             else:
                 Logger.console.info("Fortify secret not found in fortify.ini")
-                fortify_user = click.prompt('Fortify user')
-                fortify_password = click.prompt('Fortify password', hide_input=True)
+                fortify_user, fortify_password = fortify_prompt()
                 fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                                project_template=fortify_config.project_template,
                                                application_name=fortify_config.application_name,
@@ -515,8 +517,7 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
                 fortify_user = fortify_config.username
                 fortify_password = fortify_config.password
             else:
-                fortify_user = click.prompt('Fortify user')
-                fortify_password = click.prompt('Fortify password', hide_input=True)
+                fortify_user, fortify_password = fortify_prompt()
                 fortify_config.write_username(fortify_user)
                 fortify_config.write_password(fortify_password)
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
@@ -568,8 +569,7 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
             fortify_config.write_token(fortify_client.token)
         else:
             Logger.console.info("Fortify secret not found in fortify.ini")
-            fortify_user = click.prompt('Fortify user')
-            fortify_password = click.prompt('Fortify password', hide_input=True)
+            fortify_user, fortify_password = fortify_prompt()
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                            project_template=fortify_config.project_template,
                                            application_name=fortify_config.application_name,
@@ -588,8 +588,7 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
                 fortify_user = fortify_config.username
                 fortify_password = fortify_config.password
             else:
-                fortify_user = click.prompt('Fortify user')
-                fortify_password = click.prompt('Fortify password', hide_input=True)
+                fortify_user, fortify_password = fortify_prompt()
                 fortify_config.write_username(fortify_user)
                 fortify_config.write_password(fortify_password)
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
