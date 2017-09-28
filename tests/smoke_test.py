@@ -3,7 +3,7 @@ import pytest
 
 
 def f(name):
-    print "Hello {}".format(name)
+    print("Hello {}".format(name))
 
 
 def test_f(capfd):
