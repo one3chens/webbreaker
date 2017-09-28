@@ -31,7 +31,7 @@ class FortifyConfig(object):
             self.ssc_url = config.get("fortify", "ssc_url")
 
             secret_client = SecretClient()
-            self.secret = secret_client.get('fortify', 'fortify', 'fortify_secret')
+            self.secret = secret_client.get('fortify', 'fortify', 'fortify_token')
 
         except (configparser.NoOptionError, CalledProcessError) as noe:
             Logger.console.error("{} has incorrect or missing values {}".format(config_file, noe))
@@ -42,4 +42,4 @@ class FortifyConfig(object):
         self.secret = secret
 
         secret_client = SecretClient()
-        secret_client.set('fortify', 'fortify', 'fortify_secret', self.secret)
+        secret_client.set('fortify', 'fortify', 'fortify_token', self.secret)
