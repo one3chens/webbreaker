@@ -385,9 +385,9 @@ def fortify_list(config, fortify_user, fortify_password, application):
     try:
         if not fortify_user or not fortify_password:
             Logger.console.info("No Fortify username or password provided. Checking fortify.ini for secret")
-            if fortify_config.secret or fortify_config.has_auth_creds():
+            if fortify_config.token or fortify_config.has_auth_creds():
                 Logger.console.info("Fortify secret found in fortify.ini")
-                fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, token=fortify_config.secret,
+                fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, token=fortify_config.token,
                                                fortify_username=fortify_config.username, fortify_password=fortify_config.password)
                 fortify_config.write_token(fortify_client.token)
             else:
@@ -402,7 +402,7 @@ def fortify_list(config, fortify_user, fortify_password, application):
                 Logger.console.info("Fortify secret written to fortify.ini")
             if application:
                 reauth = fortify_client.list_application_versions(application)
-                if reauth == -1 and fortify_config.secret:
+                if reauth == -1 and fortify_config.token:
                     Logger.console.info("Fortify secret invalid...reauthorizing")
                     if fortify_config.has_auth_creds():
                         fortify_user = fortify_config.username
@@ -419,7 +419,7 @@ def fortify_list(config, fortify_user, fortify_password, application):
                     fortify_client.list_application_versions(application)
             else:
                 reauth = fortify_client.list_versions()
-                if reauth == -1 and fortify_config.secret:
+                if reauth == -1 and fortify_config.token:
                     Logger.console.info("Fortify secret invalid...reauthorizing")
                     if fortify_config.has_auth_creds():
                         fortify_user = fortify_config.username
@@ -474,12 +474,12 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
     try:
         if not fortify_user or not fortify_password:
             Logger.console.info("No Fortify username or password provided. Checking fortify.ini for secret")
-            if fortify_config.secret or fortify_config.has_auth_creds():
+            if fortify_config.token or fortify_config.has_auth_creds():
                 Logger.console.info("Fortify secret found in fortify.ini")
                 fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                                project_template=fortify_config.project_template,
                                                application_name=fortify_config.application_name,
-                                               token=fortify_config.secret, scan_name=version, extension=x,
+                                               token=fortify_config.token, scan_name=version, extension=x,
                                                fortify_username=fortify_config.username, fortify_password=fortify_config.password)
                 fortify_config.write_token(fortify_client.token)
             else:
@@ -513,7 +513,7 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
             # The given application doesn't exist
             Logger.console.critical("Fortify Application {} does not exist. Unable to upload scan.".format(application))
 
-        if reauth == -1 and fortify_config.secret:
+        if reauth == -1 and fortify_config.token:
             Logger.console.info("Fortify secret invalid...reauthorizing")
             if fortify_config.has_auth_creds():
                 fortify_user = fortify_config.username
@@ -561,12 +561,12 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
 
     if not fortify_user or not fortify_password:
         Logger.console.info("No Fortify username or password provided. Checking fortify.ini for secret")
-        if fortify_config.secret or fortify_config.has_auth_creds():
+        if fortify_config.token or fortify_config.has_auth_creds():
             Logger.console.info("Fortify secret found in fortify.ini")
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                            project_template=fortify_config.project_template,
                                            application_name=fortify_config.application_name,
-                                           token=fortify_config.secret, scan_name=version,
+                                           token=fortify_config.token, scan_name=version,
                                            fortify_username=fortify_config.username, fortify_password=fortify_config.password)
             fortify_config.write_token(fortify_client.token)
         else:
