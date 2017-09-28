@@ -409,10 +409,10 @@ def fortify_list(config, fortify_user, fortify_password, application):
                         fortify_password = fortify_config.password
                     else:
                         fortify_user, fortify_password = fortify_prompt()
-                        fortify_config.write_username(fortify_user)
-                        fortify_config.write_password(fortify_password)
                     fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, fortify_username=fortify_user,
                                                    fortify_password=fortify_password)
+                    fortify_config.write_username(fortify_user)
+                    fortify_config.write_password(fortify_password)
                     fortify_config.write_token(fortify_client.token)
                     Logger.console.info("Fortify secret written to fortify.ini")
                     Logger.console.info("Attempting to rerun 'fortify list --application'")
@@ -428,6 +428,8 @@ def fortify_list(config, fortify_user, fortify_password, application):
                         fortify_user, fortify_password = fortify_prompt()
                     fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url, fortify_username=fortify_user,
                                                    fortify_password=fortify_password)
+                    fortify_config.write_username(fortify_user)
+                    fortify_config.write_password(fortify_password)
                     fortify_config.write_token(fortify_client.token)
                     Logger.console.info("Fortify secret written to fortify.ini")
                     Logger.console.info("Attempting to rerun 'fortify list'")
@@ -518,13 +520,13 @@ def upload(config, fortify_user, fortify_password, application, version, scan_na
                 fortify_password = fortify_config.password
             else:
                 fortify_user, fortify_password = fortify_prompt()
-                fortify_config.write_username(fortify_user)
-                fortify_config.write_password(fortify_password)
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                            project_template=fortify_config.project_template,
                                            application_name=fortify_config.application_name,
                                            fortify_username=fortify_user,
                                            fortify_password=fortify_password, scan_name=version, extension=x)
+            fortify_config.write_username(fortify_user)
+            fortify_config.write_password(fortify_password)
             fortify_config.write_token(fortify_client.token)
 
             Logger.console.info("Fortify secret written to fortify.ini")
@@ -589,13 +591,13 @@ def fortify_scan(config, fortify_user, fortify_password, application, version, b
                 fortify_password = fortify_config.password
             else:
                 fortify_user, fortify_password = fortify_prompt()
-                fortify_config.write_username(fortify_user)
-                fortify_config.write_password(fortify_password)
             fortify_client = FortifyClient(fortify_url=fortify_config.ssc_url,
                                            project_template=fortify_config.project_template,
                                            application_name=fortify_config.application_name,
                                            fortify_username=fortify_user,
                                            fortify_password=fortify_password, scan_name=version)
+            fortify_config.write_username(fortify_user)
+            fortify_config.write_password(fortify_password)
             fortify_config.write_token(fortify_client.token)
             Logger.console.info("Fortify secret written to fortify.ini")
             Logger.console.info("Attempting to rerun 'fortify scan'")
