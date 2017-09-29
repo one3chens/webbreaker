@@ -90,13 +90,13 @@ class WebinspectClient(object):
         response = api.create_scan(overrides)
 
         logger_response = json.dumps(response, default=lambda o: o.__dict__, sort_keys=True)
-        Logger.console.info("Request sent to WebInspect server: {}".format(self.url))
+        Logger.console.info("\nRequest sent to WebInspect server: {}".format(self.url))
         Logger.app.debug("Request sent to {0}:\n{1}".format(self.url, overrides))
         Logger.app.debug("Response from {0}:\n{1}".format(self.url, logger_response))
 
         if response.success:
             scan_id = response.data['ScanId']
-            Logger.console.info('WebInspect scan launched on {0} your scan id: {1} !!\n'.format(self.url, scan_id))
+            Logger.console.info('\nWebInspect scan launched on {0} your scan id: {1} !!\n'.format(self.url, scan_id))
             # Logger.app.info("Request sent to {0}:\n{1}".format(self.url, overrides))
             # Logger.app.info("Response from {0}:\n{1}".format(self.url, logger_response))
         else:
